@@ -1,5 +1,7 @@
+
 Flask
 openai
 PyMuPDF
 python-dotenv
 reportlab
+gunicorn
