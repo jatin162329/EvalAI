@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EvalAI | Student Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --brown-dark: #4a2c20;
+            --brown: #7a513b;
+            --brown-light: #a8795b;
+            --cream: #f7f1e5;
+            --white: #fffdf8;
+            --text: #35251e;
+            --muted: #806f63;
+            --success: #6d8b63;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+
+            background:
+                radial-gradient(circle at 10% 10%, #ead7c2 0%, transparent 30%),
+                radial-gradient(circle at 90% 20%, #dfc7ad 0%, transparent 28%),
+                radial-gradient(circle at 50% 100%, #eadbc8 0%, transparent 35%),
+                var(--cream);
+
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================== */
+
+        .shape {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+        }
+
+        .shape-one {
+            width: 230px;
+            height: 230px;
+            background: #c9a98d;
+            top: -80px;
+            left: -70px;
+            animation: floatOne 7s ease-in-out infinite;
+        }
+
+        .shape-two {
+            width: 190px;
+            height: 190px;
+            background: #b98c6e;
+            right: -70px;
+            bottom: 10%;
+            animation: floatTwo 8s ease-in-out infinite;
+        }
+
+        .shape-three {
+            width: 120px;
+            height: 120px;
+            background: #d4b69a;
+            left: 10%;
+            bottom: -40px;
+            animation: floatThree 6s ease-in-out infinite;
+        }
+
+        @keyframes floatOne {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(25px, 20px);
+            }
+        }
+
+        @keyframes floatTwo {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -25px);
+            }
+        }
+
+        @keyframes floatThree {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* =========================
+           LOADING LINE
+        ========================== */
+
+        .loading-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            width: 0;
+            height: 3px;
+
+            background: var(--brown-dark);
+
+            z-index: 9999;
+
+            animation: loadLine 1.3s ease forwards;
+        }
+
+        @keyframes loadLine {
+            0% {
+                width: 0;
+            }
+
+            70% {
+                width: 85%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        header {
+            width: 100%;
+            padding: 24px 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: relative;
+            z-index: 5;
+
+            opacity: 0;
+
+            animation: headerReveal 0.8s ease forwards;
+            animation-delay: 0.15s;
+        }
+
+        @keyframes headerReveal {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 24px;
+            font-weight: 800;
+
+            color: var(--brown-dark);
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            background: var(--brown-dark);
+            color: var(--cream);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+            font-weight: 800;
+
+            box-shadow:
+                0 10px 25px rgba(74, 44, 32, 0.18);
+        }
+
+        .back-link {
+            text-decoration: none;
+
+            color: var(--brown);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            padding: 9px 15px;
+
+            border-radius: 30px;
+
+            background: rgba(255, 253, 248, 0.7);
+
+            border: 1px solid rgba(74, 44, 32, 0.1);
+
+            transition: 0.3s ease;
+
+            backdrop-filter: blur(8px);
+        }
+
+        .back-link:hover {
+            color: var(--brown-dark);
+
+            transform: translateX(-4px);
+
+            background: var(--white);
+
+            box-shadow:
+                0 10px 25px rgba(74, 44, 32, 0.08);
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        main {
+            min-height: calc(100vh - 90px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px 20px 70px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           LOGIN CARD
+        ========================== */
+
+        .login-card {
+            width: min(460px, 100%);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 253, 248, 0.96),
+                    rgba(255, 253, 248, 0.84)
+                );
+
+            border: 1px solid rgba(74, 44, 32, 0.13);
+
+            border-radius: 32px;
+
+            padding: 45px 42px;
+
+            box-shadow:
+                0 30px 70px rgba(74, 44, 32, 0.13);
+
+            backdrop-filter: blur(15px);
+
+            position: relative;
+            overflow: hidden;
+
+            opacity: 0;
+
+            transform:
+                translateY(35px)
+                scale(0.96);
+
+            animation:
+                cardReveal 0.9s
+                cubic-bezier(.2,.8,.2,1)
+                forwards;
+
+            animation-delay: 0.35s;
+        }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        .login-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            border-radius: 50%;
+
+            background: #ead8c6;
+
+            right: -100px;
+            top: -100px;
+
+            transition: 0.6s ease;
+        }
+
+        .login-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            border-radius: 50%;
+
+            background: #f0e5d5;
+
+            left: -65px;
+            bottom: -65px;
+
+            transition: 0.6s ease;
+        }
+
+        .login-card:hover::before {
+            transform: scale(1.25);
+        }
+
+        .login-card:hover::after {
+            transform: scale(1.15);
+        }
+
+        /* =========================
+           STUDENT ICON
+        ========================== */
+
+        .student-icon {
+            width: 72px;
+            height: 72px;
+
+            border-radius: 22px;
+
+            background: var(--brown-light);
+            color: var(--cream);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+
+            margin-bottom: 25px;
+
+            position: relative;
+            z-index: 2;
+
+            box-shadow:
+                0 15px 30px rgba(74, 44, 32, 0.18);
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        .login-card:hover .student-icon {
+            transform:
+                rotate(5deg)
+                scale(1.08);
+
+            box-shadow:
+                0 20px 35px rgba(74, 44, 32, 0.23);
+        }
+
+        /* =========================
+           CONTENT
+        ========================== */
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            color: var(--brown-light);
+
+            font-size: 12px;
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            color: var(--brown-dark);
+
+            font-size: 36px;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: var(--muted);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            color: var(--brown-dark);
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 9px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 16px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 17px;
+
+            opacity: 0.7;
+
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+
+            padding:
+                15px
+                16px
+                15px
+                48px;
+
+            border-radius: 15px;
+
+            border: 1px solid rgba(74, 44, 32, 0.15);
+
+            background: rgba(247, 241, 229, 0.55);
+
+            color: var(--brown-dark);
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #aa9b90;
+        }
+
+        input:focus {
+            background: var(--white);
+
+            border-color: var(--brown);
+
+            box-shadow:
+                0 0 0 4px rgba(122, 81, 59, 0.10);
+        }
+
+        /* =========================
+           DEMO NOTE
+        ========================== */
+
+        .demo-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 12px 14px;
+
+            border-radius: 13px;
+
+            background: rgba(122, 81, 59, 0.07);
+
+            border: 1px solid rgba(122, 81, 59, 0.09);
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-bottom: 23px;
+        }
+
+        .demo-note strong {
+            color: var(--brown);
+        }
+
+        /* =========================
+           BUTTON
+        ========================== */
+
+        .login-button {
+            width: 100%;
+
+            border: none;
+
+            border-radius: 15px;
+
+            padding: 16px;
+
+            background: var(--brown-dark);
+
+            color: var(--cream);
+
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            position: relative;
+            overflow: hidden;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+        }
+
+        .login-button::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 70%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.18),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            transition: 0.6s ease;
+        }
+
+        .login-button:hover {
+            transform: translateY(-3px);
+
+            background: #5a3729;
+
+            box-shadow:
+                0 18px 30px rgba(74, 44, 32, 0.20);
+        }
+
+        .login-button:hover::before {
+            left: 140%;
+        }
+
+        .login-button:active {
+            transform: scale(0.98);
+        }
+
+        /* =========================
+           SECURITY
+        ========================== */
+
+        .security {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+
+            margin-top: 22px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .security-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--success);
+
+            box-shadow:
+                0 0 0 4px rgba(109, 139, 99, 0.12);
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .footer strong {
+            color: var(--brown);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px 5%;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .logo-icon {
+                width: 39px;
+                height: 39px;
+            }
+
+            main {
+                padding:
+                    20px
+                    15px
+                    50px;
+            }
+
+            .login-card {
+                padding:
+                    35px
+                    25px;
+
+                border-radius: 27px;
+            }
+
+            h1 {
+                font-size: 31px;
+            }
+
+            .back-link {
+                font-size: 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loading-line"></div>
+
+    <div class="shape shape-one"></div>
+    <div class="shape shape-two"></div>
+    <div class="shape shape-three"></div>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                E
+            </div>
+
+            EvalAI
+
+        </div>
+
+
+        <a
+            href="/"
+            class="back-link"
+        >
+            ← Change Role
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main>
+
+        <div class="login-card">
+
+            <div class="content">
+
+                <!-- Student Icon -->
+
+                <div class="student-icon">
+                    🎒
+                </div>
+
+
+                <!-- Heading -->
+
+                <div class="eyebrow">
+                    Student Portal
+                </div>
+
+                <h1>
+                    Welcome, Student.
+                </h1>
+
+                <p class="description">
+                    Enter your Registration Number to access
+                    assignments, submit your answers and view
+                    your evaluation results.
+                </p>
+
+
+                <!-- LOGIN FORM -->
+
+                <form
+                    action="/student-login"
+                    method="POST"
+                >
+
+                    <div class="form-group">
+
+                        <label for="registration_number">
+                            Registration Number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <div class="input-icon">
+                                🪪
+                            </div>
+
+                            <input
+                                type="text"
+                                id="registration_number"
+                                name="registration_number"
+                                placeholder="Enter your Registration Number"
+                                autocomplete="off"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Demo IDs -->
+
+                    <div class="demo-note">
+
+                        💡
+
+                        <span>
+                            Demo Registration Numbers:
+                            <strong>RA001</strong>,
+                            <strong>RA002</strong>,
+                            <strong>RA003</strong>
+                        </span>
+
+                    </div>
+
+
+                    <!-- Login -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                    >
+                        Continue to Student Portal →
+                    </button>
+
+                </form>
+
+
+                <!-- Security -->
+
+                <div class="security">
+
+                    <span class="security-dot"></span>
+
+                    Student access protected
+
+                </div>
+
+
+                <div class="footer">
+
+                    EvalAI •
+                    <strong>Smart Assignment Evaluation</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const input =
+                    document.getElementById(
+                        "registration_number"
+                    );
+
+                const button =
+                    document.querySelector(
+                        ".login-button"
+                    );
+
+
+                input.addEventListener(
+                    "input",
+                    function () {
+
+                        if (
+                            input.value.trim().length > 0
+                        ) {
+
+                            button.style.transform =
+                                "translateY(-2px)";
+
+                        } else {
+
+                            button.style.transform =
+                                "translateY(0)";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

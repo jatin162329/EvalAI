@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Assignment | EvalAI</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Georgia,"Times New Roman",serif;
+    background:#f6efe6;
+    color:#3f2b21;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+    height:74px;
+    background:#fffaf4;
+    border-bottom:1px solid #e5d7c8;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 7%;
+
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.brand{
+    font-size:28px;
+    font-weight:800;
+    color:#3f271c;
+}
+
+.brand span{
+    color:#9a684d;
+}
+
+.nav{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.nav a{
+    color:#765744;
+    text-decoration:none;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:14px;
+}
+
+.nav a:hover,
+.nav a.active{
+    background:#eee2d4;
+    color:#4b2d20;
+}
+
+.nav .logout{
+    background:#4b2d20;
+    color:#fff;
+}
+
+/* CONTAINER */
+
+.container{
+    width:min(900px,92%);
+    margin:0 auto;
+    padding:45px 0 70px;
+}
+
+.back{
+    display:inline-block;
+    color:#765744;
+    text-decoration:none;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+/* HERO */
+
+.hero{
+    margin-bottom:28px;
+}
+
+.eyebrow{
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:12px;
+    color:#9a684d;
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#876a56;
+    line-height:1.6;
+}
+
+/* CARD */
+
+.card{
+    background:#fffaf4;
+    border:1px solid #e3d5c6;
+    border-radius:20px;
+    padding:30px;
+
+    box-shadow:0 10px 30px rgba(70,45,30,.05);
+
+    margin-bottom:20px;
+}
+
+.card h2{
+    font-size:22px;
+    margin-bottom:18px;
+}
+
+/* FIELDS */
+
+.field{
+    margin-bottom:20px;
+}
+
+.field label{
+    display:block;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.field input[type=text],
+.field input[type=number],
+.field input[type=file]{
+    width:100%;
+
+    padding:13px 14px;
+
+    border:1px solid #d9c8b8;
+    border-radius:10px;
+
+    background:#fffdf9;
+    color:#3f2b21;
+
+    font-family:inherit;
+    font-size:15px;
+}
+
+.field input:focus{
+    outline:2px solid #d9bda8;
+    border-color:#9a684d;
+}
+
+/* SECTIONS */
+
+.section-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.section-option{
+    position:relative;
+}
+
+.section-option input{
+    position:absolute;
+    opacity:0;
+}
+
+.section-option label{
+    display:block;
+
+    border:1px solid #dcc9b7;
+    border-radius:14px;
+
+    padding:18px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    background:#fffdf9;
+
+    transition:.2s;
+}
+
+.section-option label strong{
+    display:block;
+    font-size:23px;
+    margin-bottom:4px;
+}
+
+.section-option label span{
+    font-size:12px;
+    color:#8a6d5a;
+}
+
+.section-option input:checked + label{
+    background:#eee2d4;
+    border-color:#8b5d43;
+
+    box-shadow:
+        inset 0 0 0 2px #8b5d43;
+}
+
+/* RUBRIC */
+
+.rubric{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.rubric .field{
+    margin:0;
+}
+
+/* TOTAL */
+
+.total{
+    margin-top:17px;
+
+    background:#f8f0e6;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    display:flex;
+    justify-content:space-between;
+
+    font-weight:700;
+}
+
+.total strong{
+    font-size:20px;
+    color:#8b5d43;
+}
+
+.hint{
+    font-size:13px;
+    color:#8a6d5a;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+/* SUBMIT */
+
+.submit{
+    width:100%;
+
+    border:0;
+
+    background:#4b2d20;
+    color:#fff;
+
+    padding:15px;
+
+    border-radius:11px;
+
+    font:
+        700 16px
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    cursor:pointer;
+}
+
+.submit:hover{
+    background:#65402e;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .nav a:not(.active):not(.logout){
+        display:none;
+    }
+
+    .container{
+        padding-top:30px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .section-grid{
+        grid-template-columns:1fr;
+    }
+
+    .rubric{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .card{
+        padding:22px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        Eval<span>AI</span>
+    </div>
+
+    <nav class="nav">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('teacher_assignments') }}">
+            My Assignments
+        </a>
+
+        <a href="{{ url_for('create_assignment') }}"
+           class="active">
+            Create Assignment
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <a class="back"
+       href="{{ url_for('teacher_assignments') }}">
+        ← Back to My Assignments
+    </a>
+
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            Teacher Portal
+        </div>
+
+        <h1>
+            Create Assignment
+        </h1>
+
+        <p>
+            Create one assignment and choose exactly
+            which sections should receive it.
+        </p>
+
+    </section>
+
+
+    <form
+        action="{{ url_for('publish_assignment') }}"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+
+        <!-- ASSIGNMENT DETAILS -->
+
+        <section class="card">
+
+            <h2>
+                Assignment Details
+            </h2>
+
+
+            <div class="field">
+
+                <label for="subject">
+                    Subject
+                </label>
+
+                <input
+                    id="subject"
+                    type="text"
+                    name="subject"
+                    placeholder="e.g. Artificial Intelligence"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="assignment_title">
+                    Assignment Title
+                </label>
+
+                <input
+                    id="assignment_title"
+                    type="text"
+                    name="assignment_title"
+                    placeholder="e.g. Unit 1 - AI Basics"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="question_paper">
+                    Question Paper (PDF)
+                </label>
+
+                <input
+                    id="question_paper"
+                    type="file"
+                    name="question_paper"
+                    accept=".pdf,application/pdf"
+                    required
+                >
+
+            </div>
+
+        </section>
+
+
+        <!-- SECTIONS -->
+
+        <section class="card">
+
+            <h2>
+                Give Assignment To
+            </h2>
+
+
+            <div class="section-grid">
+
+
+                <div class="section-option">
+
+                    <input
+                        id="section-c"
+                        type="checkbox"
+                        name="sections"
+                        value="C"
+                    >
+
+                    <label for="section-c">
+
+                        <strong>C</strong>
+
+                        <span>
+                            3 students
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="section-option">
+
+                    <input
+                        id="section-f"
+                        type="checkbox"
+                        name="sections"
+                        value="F"
+                    >
+
+                    <label for="section-f">
+
+                        <strong>F</strong>
+
+                        <span>
+                            3 students
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="section-option">
+
+                    <input
+                        id="section-h"
+                        type="checkbox"
+                        name="sections"
+                        value="H"
+                    >
+
+                    <label for="section-h">
+
+                        <strong>H</strong>
+
+                        <span>
+                            3 students
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+            </div>
+
+
+            <p class="hint">
+
+                You can select one, two, or all three sections.
+                Each section will have its own submission count
+                and student list.
+
+            </p>
+
+        </section>
+
+
+        <!-- RUBRIC -->
+
+        <section class="card">
+
+            <h2>
+                Marking Rubric
+            </h2>
+
+
+            <div class="rubric">
+
+
+                <div class="field">
+
+                    <label>
+                        Definition
+                    </label>
+
+                    <input
+                        class="mark"
+                        type="number"
+                        name="definition"
+                        value="2"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Explanation
+                    </label>
+
+                    <input
+                        class="mark"
+                        type="number"
+                        name="explanation"
+                        value="4"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Example
+                    </label>
+
+                    <input
+                        class="mark"
+                        type="number"
+                        name="example"
+                        value="2"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Diagram
+                    </label>
+
+                    <input
+                        class="mark"
+                        type="number"
+                        name="diagram"
+                        value="2"
+                        min="0"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="total">
+
+                <span>
+                    Total Marks
+                </span>
+
+                <strong id="total">
+                    10
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <button
+            class="submit"
+            type="submit"
+        >
+            Publish Assignment
+        </button>
+
+
+    </form>
+
+</main>
+
+
+<script>
+
+const marks =
+    document.querySelectorAll(".mark");
+
+
+function updateTotal(){
+
+    let total = 0;
+
+    marks.forEach(function(input){
+
+        total += Number(input.value) || 0;
+
+    });
+
+    document.getElementById("total")
+        .textContent = total;
+
+}
+
+
+marks.forEach(function(input){
+
+    input.addEventListener(
+        "input",
+        updateTotal
+    );
+
+});
+
+</script>
+
+</body>
+</html>

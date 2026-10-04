@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Evaluate Assignment | EvalAI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f7f9;
+            color: #171717;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e7e7e7;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 42px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+
+            border-radius: 10px;
+
+            background: #111;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .portal {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .dashboard-link,
+        .logout {
+            text-decoration: none;
+            color: #555;
+
+            font-size: 14px;
+
+            padding: 9px 15px;
+
+            border: 1px solid #ddd;
+            border-radius: 8px;
+
+            transition: 0.2s;
+        }
+
+        .dashboard-link:hover,
+        .logout:hover {
+            background: #f3f3f3;
+            color: #111;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: min(1050px, calc(100% - 40px));
+            margin: 42px auto 70px;
+        }
+
+        .back {
+            display: inline-block;
+
+            text-decoration: none;
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 22px;
+        }
+
+        .back:hover {
+            color: #111;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 34px;
+            letter-spacing: -0.8px;
+            margin-bottom: 9px;
+        }
+
+        .heading p {
+            color: #777;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ================= INFO BANNER ================= */
+
+        .info-banner {
+            background: white;
+
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+
+            padding: 18px 20px;
+
+            margin-bottom: 24px;
+
+            display: flex;
+            gap: 13px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            background: #f0f0f0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .info-banner strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .info-banner p {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+
+            border: 1px solid #e5e5e5;
+            border-radius: 16px;
+
+            padding: 27px;
+
+            margin-bottom: 22px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.03);
+        }
+
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .card-description {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+
+            margin-bottom: 23px;
+        }
+
+        /* ================= UPLOADS ================= */
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .upload-box {
+            border: 1.5px dashed #d4d4d4;
+            border-radius: 13px;
+
+            padding: 25px 20px;
+
+            text-align: center;
+
+            background: #fafafa;
+
+            transition: 0.2s;
+        }
+
+        .upload-box:hover {
+            border-color: #999;
+            background: #f7f7f7;
+        }
+
+        .upload-icon {
+            width: 46px;
+            height: 46px;
+
+            margin: 0 auto 13px;
+
+            border-radius: 12px;
+
+            background: #eeeeee;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .upload-box h3 {
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .upload-box p {
+            color: #888;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            width: 100%;
+
+            font-size: 13px;
+
+            color: #555;
+
+            padding: 8px;
+
+            background: white;
+
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* ================= RUBRIC ================= */
+
+        .rubric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .rubric-item {
+            background: #fafafa;
+
+            border: 1px solid #e8e8e8;
+            border-radius: 11px;
+
+            padding: 16px;
+        }
+
+        .rubric-item label {
+            display: block;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 9px;
+        }
+
+        .rubric-item input {
+            width: 100%;
+
+            padding: 11px 10px;
+
+            border: 1px solid #d8d8d8;
+            border-radius: 8px;
+
+            background: white;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        .rubric-item input:focus {
+            border-color: #999;
+        }
+
+        .rubric-item small {
+            display: block;
+
+            color: #999;
+
+            font-size: 11px;
+
+            margin-top: 7px;
+        }
+
+        /* ================= TOTAL ================= */
+
+        .rubric-total {
+            margin-top: 18px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 14px 16px;
+
+            background: #f7f7f7;
+
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+        }
+
+        .rubric-total span {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .rubric-total strong {
+            font-size: 17px;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .submit-area {
+            margin-top: 25px;
+
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .evaluate-btn {
+            border: none;
+
+            background: #111;
+            color: white;
+
+            padding: 14px 25px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .evaluate-btn:hover {
+            background: #333;
+        }
+
+        .evaluate-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* ================= PROCESS ================= */
+
+        .process {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+
+            margin-top: 10px;
+        }
+
+        .process-item {
+            padding: 17px;
+
+            border: 1px solid #e8e8e8;
+            border-radius: 11px;
+
+            background: white;
+        }
+
+        .process-number {
+            font-size: 12px;
+            color: #888;
+
+            margin-bottom: 8px;
+        }
+
+        .process-item strong {
+            display: block;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+        .process-item p {
+            color: #888;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            header {
+                padding: 0 18px;
+            }
+
+            .portal {
+                display: none;
+            }
+
+            .container {
+                width: min(100% - 24px, 1050px);
+                margin-top: 28px;
+            }
+
+            .heading h1 {
+                font-size: 28px;
+            }
+
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rubric-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .card {
+                padding: 20px;
+            }
+
+            .rubric-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-area {
+                justify-content: stretch;
+            }
+
+            .evaluate-btn {
+                width: 100%;
+            }
+
+            .dashboard-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        <div class="logo">E</div>
+        EvalAI
+    </div>
+
+    <div class="header-right">
+
+        <span class="portal">
+            Teacher Portal
+        </span>
+
+        <a href="/dashboard" class="dashboard-link">
+            Dashboard
+        </a>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <a href="/dashboard" class="back">
+        ← Back to Dashboard
+    </a>
+
+
+    <div class="heading">
+
+        <h1>
+            Evaluate Assignment
+        </h1>
+
+        <p>
+            Upload the question paper and student answers,
+            configure your marking rubric, and let EvalAI generate
+            a structured evaluation.
+        </p>
+
+    </div>
+
+
+    <!-- Information -->
+    <div class="info-banner">
+
+        <div class="info-icon">
+            i
+        </div>
+
+        <div>
+
+            <strong>
+                How EvalAI works
+            </strong>
+
+            <p>
+                EvalAI extracts the assignment content, evaluates the
+                answers according to your rubric, and generates
+                question-wise marks, feedback, strengths, weak topics,
+                and improvement suggestions.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Upload Section -->
+    <form action="/evaluate" method="POST" enctype="multipart/form-data">
+
+        <section class="card">
+
+            <h2 class="card-title">
+                Assignment Documents
+            </h2>
+
+            <p class="card-description">
+                Upload both PDF documents to begin the evaluation.
+            </p>
+
+
+            <div class="upload-grid">
+
+                <!-- Question Paper -->
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        📄
+                    </div>
+
+                    <h3>
+                        Question Paper
+                    </h3>
+
+                    <p>
+                        Upload the question paper containing
+                        questions and marks.
+                    </p>
+
+                    <input
+                        class="file-input"
+                        type="file"
+                        name="question_paper"
+                        accept=".pdf"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Student Answer -->
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        Student Answer
+                    </h3>
+
+                    <p>
+                        Upload the student's completed
+                        answer sheet in PDF format.
+                    </p>
+
+                    <input
+                        class="file-input"
+                        type="file"
+                        name="student_answers"
+                        accept=".pdf"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Rubric -->
+        <section class="card">
+
+            <h2 class="card-title">
+                Custom Marking Rubric
+            </h2>
+
+            <p class="card-description">
+                Define how marks should be distributed across
+                different answer components.
+            </p>
+
+
+            <div class="rubric-grid">
+
+                <div class="rubric-item">
+
+                    <label for="definition">
+                        Definition
+                    </label>
+
+                    <input
+                        type="number"
+                        id="definition"
+                        name="definition"
+                        min="0"
+                        step="1"
+                        value="2"
+                        required
+                    >
+
+                    <small>
+                        Marks for correct definition
+                    </small>
+
+                </div>
+
+
+                <div class="rubric-item">
+
+                    <label for="explanation">
+                        Explanation
+                    </label>
+
+                    <input
+                        type="number"
+                        id="explanation"
+                        name="explanation"
+                        min="0"
+                        step="1"
+                        value="4"
+                        required
+                    >
+
+                    <small>
+                        Marks for explanation
+                    </small>
+
+                </div>
+
+
+                <div class="rubric-item">
+
+                    <label for="example">
+                        Example
+                    </label>
+
+                    <input
+                        type="number"
+                        id="example"
+                        name="example"
+                        min="0"
+                        step="1"
+                        value="2"
+                        required
+                    >
+
+                    <small>
+                        Marks for examples
+                    </small>
+
+                </div>
+
+
+                <div class="rubric-item">
+
+                    <label for="diagram">
+                        Diagram
+                    </label>
+
+                    <input
+                        type="number"
+                        id="diagram"
+                        name="diagram"
+                        min="0"
+                        step="1"
+                        value="2"
+                        required
+                    >
+
+                    <small>
+                        Marks for diagrams
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="rubric-total">
+
+                <span>
+                    Rubric total
+                </span>
+
+                <strong id="rubricTotal">
+                    10 marks
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- Submit -->
+        <div class="submit-area">
+
+            <button
+                type="submit"
+                class="evaluate-btn"
+            >
+                Evaluate Assignment →
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- Process -->
+    <section class="card" style="margin-top: 28px;">
+
+        <h2 class="card-title">
+            Evaluation Process
+        </h2>
+
+        <p class="card-description">
+            Your assignment passes through three simple stages.
+        </p>
+
+
+        <div class="process">
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    STEP 01
+                </div>
+
+                <strong>
+                    Extract
+                </strong>
+
+                <p>
+                    Question and answer text is extracted
+                    from the uploaded PDFs.
+                </p>
+
+            </div>
+
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    STEP 02
+                </div>
+
+                <strong>
+                    Evaluate
+                </strong>
+
+                <p>
+                    Answers are assessed according to the
+                    selected marking rubric.
+                </p>
+
+            </div>
+
+
+            <div class="process-item">
+
+                <div class="process-number">
+                    STEP 03
+                </div>
+
+                <strong>
+                    Report
+                </strong>
+
+                <p>
+                    Marks, feedback, strengths and improvement
+                    suggestions are generated.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    const definition = document.getElementById("definition");
+    const explanation = document.getElementById("explanation");
+    const example = document.getElementById("example");
+    const diagram = document.getElementById("diagram");
+
+    const rubricTotal = document.getElementById("rubricTotal");
+
+
+    function updateRubricTotal() {
+
+        const total =
+            Number(definition.value || 0) +
+            Number(explanation.value || 0) +
+            Number(example.value || 0) +
+            Number(diagram.value || 0);
+
+        rubricTotal.textContent = total + " marks";
+    }
+
+
+    definition.addEventListener("input", updateRubricTotal);
+    explanation.addEventListener("input", updateRubricTotal);
+    example.addEventListener("input", updateRubricTotal);
+    diagram.addEventListener("input", updateRubricTotal);
+
+
+    updateRubricTotal();
+
+</script>
+
+</body>
+</html>

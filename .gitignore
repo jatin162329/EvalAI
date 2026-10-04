@@ -1,0 +1,16 @@
+venv/
+.env
+
+__pycache__/
+*.pyc
+*.pyo
+
+uploads/
+reports/
+
+scores.json
+submissions.json
+evaluations.json
+assignments.json
+
+*.log

@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EvalAI | Smart Assignment Evaluation</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --brown-dark: #4a2c20;
+            --brown: #7a513b;
+            --brown-light: #a8795b;
+            --cream: #f7f1e5;
+            --cream-dark: #eadfce;
+            --white: #fffdf8;
+            --text: #35251e;
+            --muted: #806f63;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, #ead7c2 0%, transparent 30%),
+                radial-gradient(circle at 90% 20%, #dfc7ad 0%, transparent 28%),
+                radial-gradient(circle at 50% 100%, #eadbc8 0%, transparent 35%),
+                var(--cream);
+
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           BACKGROUND DECORATIONS
+        ========================== */
+
+        .shape {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+            filter: blur(2px);
+        }
+
+        .shape.one {
+            width: 230px;
+            height: 230px;
+            background: #c9a98d;
+            top: -80px;
+            left: -70px;
+            animation: floatOne 7s ease-in-out infinite;
+        }
+
+        .shape.two {
+            width: 180px;
+            height: 180px;
+            background: #b98c6e;
+            right: -60px;
+            top: 40%;
+            animation: floatTwo 8s ease-in-out infinite;
+        }
+
+        .shape.three {
+            width: 140px;
+            height: 140px;
+            background: #d4b69a;
+            bottom: -50px;
+            left: 40%;
+            animation: floatThree 6s ease-in-out infinite;
+        }
+
+        @keyframes floatOne {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(25px, 20px);
+            }
+        }
+
+        @keyframes floatTwo {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-20px, -25px);
+            }
+        }
+
+        @keyframes floatThree {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-25px);
+            }
+        }
+
+        /* =========================
+           TOP LOADING LINE
+        ========================== */
+
+        .loading-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background: var(--brown-dark);
+            z-index: 9999;
+            animation: loadLine 1.4s ease forwards;
+        }
+
+        @keyframes loadLine {
+            0% {
+                width: 0;
+            }
+
+            70% {
+                width: 85%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        header {
+            width: 100%;
+            padding: 24px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: headerReveal 0.8s ease forwards;
+            animation-delay: 0.15s;
+        }
+
+        @keyframes headerReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--brown-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: var(--brown-dark);
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            box-shadow: 0 10px 25px rgba(74, 44, 32, 0.18);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 15px;
+            border-radius: 30px;
+            background: rgba(255, 253, 248, 0.7);
+            border: 1px solid rgba(74, 44, 32, 0.1);
+            color: var(--muted);
+            font-size: 13px;
+            backdrop-filter: blur(8px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6d8b63;
+            box-shadow: 0 0 0 5px rgba(109, 139, 99, 0.12);
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        main {
+            width: min(1100px, 90%);
+            margin: 20px auto 70px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto;
+
+            opacity: 0;
+            transform: translateY(25px);
+            animation: heroReveal 0.9s ease forwards;
+            animation-delay: 0.35s;
+        }
+
+        @keyframes heroReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: rgba(255, 253, 248, 0.75);
+            border: 1px solid rgba(74, 44, 32, 0.12);
+            color: var(--brown);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(8px);
+        }
+
+        .badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--brown);
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 0.98;
+            letter-spacing: -4px;
+            color: var(--brown-dark);
+            margin-bottom: 22px;
+        }
+
+        .hero h1 span {
+            color: var(--brown-light);
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           FEATURES
+        ========================== */
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+
+            opacity: 0;
+            animation: featureReveal 0.8s ease forwards;
+            animation-delay: 0.75s;
+        }
+
+        @keyframes featureReveal {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .feature {
+            padding: 9px 15px;
+            border-radius: 30px;
+            background: rgba(255, 253, 248, 0.65);
+            border: 1px solid rgba(74, 44, 32, 0.1);
+            color: var(--brown);
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+            background: var(--white);
+            box-shadow: 0 10px 25px rgba(74, 44, 32, 0.08);
+        }
+
+        /* =========================
+           ROLE SECTION
+        ========================== */
+
+        .role-section {
+            margin-top: 60px;
+        }
+
+        .role-title {
+            text-align: center;
+            margin-bottom: 28px;
+
+            opacity: 0;
+            transform: translateY(15px);
+            animation: roleTitleReveal 0.7s ease forwards;
+            animation-delay: 1s;
+        }
+
+        @keyframes roleTitleReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .role-title h2 {
+            color: var(--brown-dark);
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .role-title p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================
+           ROLE CARDS
+        ========================== */
+
+        .roles {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(280px, 400px));
+            justify-content: center;
+            gap: 25px;
+            position: relative;
+            min-height: 330px;
+
+            perspective: 1200px;
+        }
+
+        .role {
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+            background: rgba(255, 253, 248, 0.88);
+            border: 1px solid rgba(74, 44, 32, 0.13);
+            border-radius: 28px;
+            padding: 38px 34px;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            min-height: 300px;
+
+            box-shadow:
+                0 15px 35px rgba(74, 44, 32, 0.08);
+
+            transition:
+                transform 0.45s cubic-bezier(.2,.8,.2,1),
+                opacity 0.4s ease,
+                filter 0.4s ease,
+                box-shadow 0.45s ease,
+                border-color 0.45s ease;
+
+            opacity: 0;
+            animation: roleReveal 0.75s ease forwards;
+        }
+
+        .teacher {
+            animation-delay: 1.15s;
+        }
+
+        .student {
+            animation-delay: 1.35s;
+        }
+
+        @keyframes roleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(45px) scale(0.94);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Decorative glow */
+
+        .role::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            top: -90px;
+            right: -70px;
+            background: #ead8c6;
+            transition: 0.5s ease;
+        }
+
+        .role::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            bottom: -70px;
+            left: -55px;
+            background: #f0e5d5;
+            transition: 0.5s ease;
+        }
+
+        .role:hover::before {
+            transform: scale(1.35);
+        }
+
+        .role:hover::after {
+            transform: scale(1.25);
+        }
+
+        /* =========================
+           STRONG HOVER FOCUS
+        ========================== */
+
+        .roles.focus-teacher .teacher {
+            transform: translateY(-18px) scale(1.08);
+            z-index: 5;
+
+            opacity: 1;
+            filter: none;
+
+            border-color: var(--brown);
+            box-shadow:
+                0 35px 65px rgba(74, 44, 32, 0.22),
+                0 0 0 4px rgba(122, 81, 59, 0.10);
+        }
+
+        .roles.focus-teacher .student {
+            transform: translateY(12px) scale(0.91);
+            z-index: 1;
+
+            opacity: 0.48;
+            filter: saturate(0.55) brightness(0.97);
+
+            box-shadow: 0 8px 20px rgba(74, 44, 32, 0.05);
+        }
+
+        .roles.focus-student .student {
+            transform: translateY(-18px) scale(1.08);
+            z-index: 5;
+
+            opacity: 1;
+            filter: none;
+
+            border-color: var(--brown);
+            box-shadow:
+                0 35px 65px rgba(74, 44, 32, 0.22),
+                0 0 0 4px rgba(122, 81, 59, 0.10);
+        }
+
+        .roles.focus-student .teacher {
+            transform: translateY(12px) scale(0.91);
+            z-index: 1;
+
+            opacity: 0.48;
+            filter: saturate(0.55) brightness(0.97);
+
+            box-shadow: 0 8px 20px rgba(74, 44, 32, 0.05);
+        }
+
+        /* =========================
+           CARD CONTENT
+        ========================== */
+
+        .role-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .role-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 20px;
+            background: var(--brown-dark);
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin-bottom: 27px;
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        .student .role-icon {
+            background: var(--brown-light);
+        }
+
+        .role:hover .role-icon {
+            transform: rotate(-5deg) scale(1.12);
+            box-shadow: 0 15px 25px rgba(74, 44, 32, 0.18);
+        }
+
+        .role h3 {
+            font-size: 27px;
+            color: var(--brown-dark);
+            margin-bottom: 10px;
+        }
+
+        .role p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .role-bottom {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 30px;
+        }
+
+        .role-label {
+            color: var(--brown);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(74, 44, 32, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brown-dark);
+
+            transition:
+                transform 0.35s ease,
+                background 0.35s ease,
+                color 0.35s ease;
+        }
+
+        .role:hover .arrow {
+            transform: translateX(7px);
+            background: var(--brown-dark);
+            color: var(--cream);
+        }
+
+        /* =========================
+           BOTTOM NOTE
+        ========================== */
+
+        .bottom-note {
+            text-align: center;
+            margin-top: 45px;
+            color: var(--muted);
+            font-size: 12px;
+
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            animation-delay: 1.7s;
+        }
+
+        .bottom-note strong {
+            color: var(--brown);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 760px) {
+
+            header {
+                padding: 20px 5%;
+            }
+
+            .status {
+                display: none;
+            }
+
+            main {
+                width: 90%;
+                margin-top: 15px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+                letter-spacing: -2.5px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .roles {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                gap: 18px;
+            }
+
+            .role {
+                min-height: 270px;
+            }
+
+            /*
+             * Disable the desktop focus effect on small screens.
+             * This keeps touch interaction comfortable.
+             */
+            .roles.focus-teacher .teacher,
+            .roles.focus-student .student,
+            .roles.focus-teacher .student,
+            .roles.focus-student .teacher {
+                transform: none;
+                opacity: 1;
+                filter: none;
+                box-shadow: 0 15px 35px rgba(74, 44, 32, 0.08);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading animation -->
+    <div class="loading-line"></div>
+
+    <!-- Background decorations -->
+    <div class="shape one"></div>
+    <div class="shape two"></div>
+    <div class="shape three"></div>
+
+    <!-- HEADER -->
+    <header>
+
+        <div class="logo">
+            <div class="logo-icon">E</div>
+            EvalAI
+        </div>
+
+        <div class="status">
+            <div class="status-dot"></div>
+            Evaluation System Online
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="badge">
+                <span></span>
+                SMART ASSIGNMENT EVALUATION
+            </div>
+
+            <h1>
+                Evaluate smarter.<br>
+                <span>Learn better.</span>
+            </h1>
+
+            <p>
+                EvalAI helps teachers evaluate assignments efficiently
+                and gives students clear, question-wise feedback to
+                understand where they can improve.
+            </p>
+
+            <div class="features">
+
+                <div class="feature">
+                    ✓ Question-wise Evaluation
+                </div>
+
+                <div class="feature">
+                    ✓ Custom Rubrics
+                </div>
+
+                <div class="feature">
+                    ✓ Performance Insights
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ROLE SELECTION -->
+        <section class="role-section">
+
+            <div class="role-title">
+
+                <h2>Choose your portal</h2>
+
+                <p>
+                    Select your role to continue to EvalAI
+                </p>
+
+            </div>
+
+
+            <div class="roles">
+
+                <!-- TEACHER -->
+                <a
+                    href="/teacher-login"
+                    class="role teacher"
+                >
+
+                    <div class="role-content">
+
+                        <div class="role-icon">
+                            🎓
+                        </div>
+
+                        <h3>Teacher</h3>
+
+                        <p>
+                            Evaluate student assignments,
+                            manage sections, review AI-generated
+                            marks and monitor class performance.
+                        </p>
+
+                    </div>
+
+
+                    <div class="role-bottom">
+
+                        <span class="role-label">
+                            Teacher Portal
+                        </span>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- STUDENT -->
+                <a
+                    href="/student-login"
+                    class="role student"
+                >
+
+                    <div class="role-content">
+
+                        <div class="role-icon">
+                            🎒
+                        </div>
+
+                        <h3>Student</h3>
+
+                        <p>
+                            Submit assignments, view evaluation
+                            results and understand your strengths,
+                            weak topics and improvement areas.
+                        </p>
+
+                    </div>
+
+
+                    <div class="role-bottom">
+
+                        <span class="role-label">
+                            Student Portal
+                        </span>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="bottom-note">
+                Secure role-based access •
+                <strong>EvalAI Demo</strong>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const roles = document.querySelector(".roles");
+            const teacher = document.querySelector(".teacher");
+            const student = document.querySelector(".student");
+
+
+            function focusTeacher() {
+                roles.classList.remove("focus-student");
+                roles.classList.add("focus-teacher");
+            }
+
+
+            function focusStudent() {
+                roles.classList.remove("focus-teacher");
+                roles.classList.add("focus-student");
+            }
+
+
+            function clearFocus() {
+                roles.classList.remove("focus-teacher");
+                roles.classList.remove("focus-student");
+            }
+
+
+            /* Mouse interaction */
+
+            teacher.addEventListener("mouseenter", focusTeacher);
+            student.addEventListener("mouseenter", focusStudent);
+
+            roles.addEventListener("mouseleave", clearFocus);
+
+
+            /* Keyboard accessibility */
+
+            teacher.addEventListener("focus", focusTeacher);
+            student.addEventListener("focus", focusStudent);
+
+
+            teacher.addEventListener("blur", function () {
+
+                if (
+                    document.activeElement !== student &&
+                    document.activeElement !== teacher
+                ) {
+                    clearFocus();
+                }
+
+            });
+
+
+            student.addEventListener("blur", function () {
+
+                if (
+                    document.activeElement !== teacher &&
+                    document.activeElement !== student
+                ) {
+                    clearFocus();
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Evaluation | EvalAI</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            background: #faf6ef;
+            color: #3f2417;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            line-height: 1.7;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .topbar {
+            background: #fffaf3;
+
+            border-bottom:
+                1px solid #dfcdbb;
+
+            padding:
+                18px 5%;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .brand {
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #5a2d1c;
+        }
+
+
+        .brand span {
+            color: #9b5d3d;
+        }
+
+
+        .header-actions {
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* ==============================
+           BUTTONS
+        ============================== */
+
+        .btn {
+            display: inline-block;
+
+            text-decoration: none;
+
+            padding:
+                10px 18px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .btn-primary {
+            background: #7b4a32;
+
+            color: white;
+
+            border:
+                1px solid #7b4a32;
+        }
+
+
+        .btn-primary:hover {
+            background: #5f3522;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .btn-outline {
+            background: #fffaf3;
+
+            color: #5b301e;
+
+            border:
+                1px solid #cdb7a3;
+        }
+
+
+        .btn-outline:hover {
+            background: #f1e5d7;
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .container {
+            width: min(1180px, 92%);
+
+            margin:
+                35px auto 60px;
+        }
+
+
+        .back-link {
+            display: inline-block;
+
+            color: #8b4e30;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+        }
+
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ==============================
+           PAGE HEADER
+        ============================== */
+
+        .eyebrow {
+            color: #9a5d3d;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .page-header h1 {
+            margin-top: 5px;
+
+            font-size:
+                clamp(34px, 5vw, 48px);
+
+            color: #432719;
+
+            line-height: 1.15;
+        }
+
+
+        .page-header p {
+            margin-top: 8px;
+
+            color: #765e4e;
+
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           ASSIGNMENT BANNER
+        ============================== */
+
+        .assignment-banner {
+            margin-top: 25px;
+
+            margin-bottom: 25px;
+
+            padding:
+                20px 24px;
+
+            background: #efe2d3;
+
+            border:
+                1px solid #dcc4ae;
+
+            border-radius: 16px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .assignment-label {
+            color: #8b684f;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        .assignment-banner h2 {
+            color: #4a291c;
+
+            font-size: 25px;
+
+            margin-top: 3px;
+        }
+
+
+        .assignment-id {
+            background: #fffaf3;
+
+            border:
+                1px solid #d8c2ac;
+
+            border-radius: 10px;
+
+            padding:
+                8px 14px;
+
+            color: #8b5738;
+
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           COMMON CARD
+        ============================== */
+
+        .card {
+            background: #fffaf3;
+
+            border:
+                1px solid #e2d1c0;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(73, 43, 27, 0.05);
+        }
+
+
+        /* ==============================
+           STUDENT INFO
+        ============================== */
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .info-box {
+            background: #f8efe6;
+
+            border:
+                1px solid #ead9c7;
+
+            border-radius: 12px;
+
+            padding: 17px;
+        }
+
+
+        .info-box span {
+            display: block;
+
+            color: #8b7464;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .info-box strong {
+            color: #5b301e;
+
+            font-size: 17px;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .card-title {
+            color: #4a291c;
+
+            font-size: 23px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .status {
+            display: inline-block;
+
+            padding:
+                8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .status-green {
+            background: #dcebdc;
+
+            color: #356b3b;
+        }
+
+
+        .status-orange {
+            background: #f7e7c9;
+
+            color: #9a641e;
+        }
+
+
+        .status-red {
+            background: #f3dddd;
+
+            color: #8a3d3d;
+        }
+
+
+        /* ==============================
+           SUBMISSION
+        ============================== */
+
+        .file-box {
+            background: #f8efe6;
+
+            border:
+                1px solid #ead9c7;
+
+            border-radius: 10px;
+
+            padding: 14px 16px;
+
+            margin-bottom: 18px;
+
+            word-break: break-word;
+        }
+
+
+        /* ==============================
+           SCORE
+        ============================== */
+
+        .score-card {
+            display: grid;
+
+            grid-template-columns:
+                1fr 190px;
+
+            gap: 25px;
+
+            align-items: center;
+        }
+
+
+        .score-label {
+            color: #806858;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        .score {
+            margin-top: 5px;
+
+            font-size: 60px;
+
+            line-height: 1;
+
+            font-weight: bold;
+
+            color: #5b2f1d;
+        }
+
+
+        .score-total {
+            font-size: 28px;
+
+            color: #9a806f;
+        }
+
+
+        .percentage {
+            margin-top: 10px;
+
+            color: #956046;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        .score-circle {
+            width: 165px;
+
+            height: 165px;
+
+            border-radius: 50%;
+
+            border:
+                11px solid #ead9c7;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin-left: auto;
+
+            background: #fffdf9;
+        }
+
+
+        .score-circle strong {
+            font-size: 34px;
+
+            color: #5c2f1d;
+        }
+
+
+        .score-circle span {
+            color: #806c5d;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           MANUAL SCORE
+        ============================== */
+
+        .manual-text {
+            color: #796355;
+
+            font-size: 14px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .score-form {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .score-input {
+            width: 130px;
+
+            padding:
+                11px 13px;
+
+            border:
+                1px solid #cdb7a3;
+
+            border-radius: 8px;
+
+            background: #fffdf9;
+
+            color: #4a291c;
+
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           EVALUATION
+        ============================== */
+
+        .evaluation-card {
+            padding: 30px;
+        }
+
+
+        .evaluation-title {
+            color: #432719;
+
+            font-size: 29px;
+
+            margin-bottom: 25px;
+
+            padding-bottom: 15px;
+
+            border-bottom:
+                1px solid #ddcbbb;
+        }
+
+
+        /* ==============================
+           QUESTIONS
+        ============================== */
+
+        .question-card {
+            background: #fffdf9;
+
+            border:
+                1px solid #e2d1c0;
+
+            border-radius: 18px;
+
+            padding: 27px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .question-header {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding-bottom: 17px;
+
+            margin-bottom: 17px;
+
+            border-bottom:
+                1px solid #eadbcb;
+        }
+
+
+        .question-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            color: #4a291c;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        .question-number {
+            width: 50px;
+
+            height: 50px;
+
+            border-radius: 50%;
+
+            background: #8b5d43;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+
+        .question-marks {
+            background: #f1e5d7;
+
+            border:
+                1px solid #dfcbb6;
+
+            border-radius: 10px;
+
+            padding:
+                7px 13px;
+
+            color: #68412c;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .feedback-label {
+            color: #8b5d43;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .feedback {
+            color: #5b4538;
+
+            font-size: 16px;
+
+            line-height: 1.8;
+        }
+
+
+        /* ==============================
+           RAW REPORT
+        ============================== */
+
+        .raw-report {
+            background: #fffdf9;
+
+            border:
+                1px solid #e2d1c0;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            margin-top: 20px;
+
+            white-space: pre-wrap;
+
+            color: #5b4538;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            line-height: 1.8;
+        }
+
+
+        /* ==============================
+           SUMMARY
+        ============================== */
+
+        .summary-card {
+            background: #f8efe6;
+
+            border:
+                1px solid #ead9c7;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            margin-top: 20px;
+        }
+
+
+        .summary-card h3 {
+            color: #4a291c;
+
+            margin-bottom: 10px;
+        }
+
+
+        .summary-text {
+            white-space: pre-wrap;
+
+            color: #5b4538;
+        }
+
+
+        /* ==============================
+           ACTIONS
+        ============================== */
+
+        .actions {
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+        }
+
+
+        /* ==============================
+           EMPTY
+        ============================== */
+
+        .empty {
+            text-align: center;
+
+            padding: 45px 25px;
+        }
+
+
+        .empty h2 {
+            color: #4a291c;
+
+            margin-bottom: 10px;
+        }
+
+
+        .empty p {
+            color: #806858;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            text-align: center;
+
+            padding:
+                10px 20px 45px;
+
+            color: #967f70;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           STUDENT ASSIGNMENT HISTORY
+        ============================== */
+
+        .assignment-history-card {
+            background: #fffaf3;
+            border: 1px solid #e2d1c0;
+            border-radius: 18px;
+            padding: 26px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(73, 43, 27, 0.05);
+        }
+
+
+        .assignment-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 15px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+
+        .assignment-history-header h2 {
+            color: #4a291c;
+            font-size: 25px;
+            margin-bottom: 4px;
+        }
+
+
+        .assignment-history-header p {
+            color: #806858;
+            font-size: 14px;
+        }
+
+
+        .assignment-count {
+            background: #f1e5d7;
+            border: 1px solid #dfcbb6;
+            border-radius: 999px;
+            padding: 7px 12px;
+            color: #68412c;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+
+        .assignment-history-list {
+            display: grid;
+            gap: 13px;
+        }
+
+
+        .assignment-history-item {
+            background: #fffdf9;
+            border: 1px solid #e2d1c0;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+
+        .assignment-history-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+
+        .assignment-history-title {
+            color: #4a291c;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+
+        .assignment-history-meta {
+            color: #8b7464;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+
+        .assignment-history-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+
+        .history-not-submitted {
+            background: #f3dddd;
+            color: #8a3d3d;
+        }
+
+
+        .history-pending {
+            background: #f7e7c9;
+            color: #9a641e;
+        }
+
+
+        .history-evaluated {
+            background: #dcebdc;
+            color: #356b3b;
+        }
+
+
+        .assignment-history-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+
+        .history-detail {
+            background: #f8efe6;
+            border: 1px solid #ead9c7;
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+
+        .history-detail span {
+            display: block;
+            color: #8b7464;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: bold;
+        }
+
+
+        .history-detail strong {
+            display: block;
+            color: #5b301e;
+            margin-top: 2px;
+            font-size: 15px;
+        }
+
+
+        .assignment-history-actions {
+            margin-top: 14px;
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+
+        .history-muted {
+            color: #967f70;
+            font-size: 13px;
+            padding-top: 4px;
+        }
+
+
+        .assignment-history-empty {
+            background: #fffdf9;
+            border: 1px dashed #d9c8b6;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            color: #806858;
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 800px) {
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .score-card {
+                grid-template-columns: 1fr;
+            }
+
+
+            .score-circle {
+                margin:
+                    10px auto 0;
+            }
+
+
+            .assignment-banner {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .assignment-history-details {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding:
+                    15px 4%;
+            }
+
+
+            .container {
+                width: 94%;
+            }
+
+
+            .question-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .question-heading {
+                font-size: 21px;
+            }
+
+
+            .card,
+            .evaluation-card,
+            .question-card,
+            .assignment-history-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="topbar">
+
+    <div class="brand">
+        Eval<span>AI</span>
+    </div>
+
+
+    <div class="header-actions">
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="btn btn-outline"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="btn btn-primary"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- BACK -->
+
+    <a
+        href="{{ url_for('section', section_name=student.section) }}"
+        class="back-link"
+    >
+        ← Back to Section {{ student.section }}
+    </a>
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div class="eyebrow">
+            Teacher Portal
+        </div>
+
+
+        <h1>
+            {{ student.name }}
+        </h1>
+
+
+        <p>
+            Student Evaluation & Assignment Performance
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         ASSIGNMENT
+    ================================================== -->
+
+    {% if assignment %}
+
+    <section class="assignment-banner">
+
+        <div>
+
+            <div class="assignment-label">
+                Selected Assignment
+            </div>
+
+
+            <h2>
+                {{ assignment.title }}
+            </h2>
+
+        </div>
+
+
+        <div class="assignment-id">
+            {{ assignment.id }}
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         STUDENT INFORMATION
+    ================================================== -->
+
+    <section class="card">
+
+        <div class="info-grid">
+
+
+            <div class="info-box">
+
+                <span>
+                    Student Name
+                </span>
+
+                <strong>
+                    {{ student.name }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Registration Number
+                </span>
+
+                <strong>
+                    {{ student.registration }}
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Section
+                </span>
+
+                <strong>
+                    {{ student.section }}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ALL ASSIGNMENTS FOR THIS STUDENT
+    ================================================== -->
+
+    <section class="assignment-history-card">
+
+        <div class="assignment-history-header">
+
+            <div>
+                <h2>All Assignments</h2>
+
+                <p>
+                    Every assignment given to
+                    {{ student.name }}
+                    and its current submission/evaluation status.
+                </p>
+            </div>
+
+
+            <div class="assignment-count">
+
+                {{ student_assignments|length }}
+
+                Assignment{% if student_assignments|length != 1 %}s{% endif %}
+
+            </div>
+
+        </div>
+
+
+        {% if student_assignments %}
+
+        <div class="assignment-history-list">
+
+
+            {% for item in student_assignments %}
+
+            <article class="assignment-history-item">
+
+
+                <div class="assignment-history-top">
+
+
+                    <div>
+
+                        <div class="assignment-history-title">
+                            {{ item.title }}
+                        </div>
+
+
+                        <div class="assignment-history-meta">
+
+                            {{ item.id }}
+
+                            ·
+
+                            {{ item.subject }}
+
+                            · Section
+                            {{ student.section }}
+
+                        </div>
+
+                    </div>
+
+
+                    {% if item.status == "Not Submitted" %}
+
+                        <span
+                            class="assignment-history-status history-not-submitted"
+                        >
+                            🔴 Not Submitted
+                        </span>
+
+                    {% elif item.status == "Submitted / Pending Evaluation" %}
+
+                        <span
+                            class="assignment-history-status history-pending"
+                        >
+                            🟠 Pending Evaluation
+                        </span>
+
+                    {% else %}
+
+                        <span
+                            class="assignment-history-status history-evaluated"
+                        >
+                            🟢 Evaluated
+                        </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <div class="assignment-history-details">
+
+
+                    <div class="history-detail">
+
+                        <span>
+                            Maximum Marks
+                        </span>
+
+                        <strong>
+                            {{ item.total_marks }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="history-detail">
+
+                        <span>
+                            Submission
+                        </span>
+
+                        <strong>
+
+                            {% if item.submission %}
+
+                                Submitted
+
+                            {% else %}
+
+                                Not Submitted
+
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="history-detail">
+
+                        <span>
+                            Result
+                        </span>
+
+                        <strong>
+
+                            {% if item.evaluation %}
+
+                                {{ item.evaluation.final_score|default(item.evaluation.score) }}
+
+                                /
+
+                                {{ item.total_marks }}
+
+                            {% elif item.submission %}
+
+                                Pending
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="assignment-history-actions">
+
+
+                    {% if item.evaluation %}
+
+
+                        <a
+                            href="{{ url_for(
+                                'student_details',
+                                student_name=student.name,
+                                section_name=student.section,
+                                assignment_id=item.id
+                            ) }}"
+                            class="btn btn-primary"
+                        >
+                            View Evaluation Report →
+                        </a>
+
+
+                        <a
+                            href="{{ url_for(
+                                'download_report',
+                                registration=student.registration,
+                                assignment_id=item.id
+                            ) }}"
+                            class="btn btn-outline"
+                        >
+                            Download Report
+                        </a>
+
+
+                    {% elif item.submission %}
+
+
+                        <form
+                            action="{{ url_for(
+                                'evaluate_student',
+                                registration=student.registration,
+                                assignment_id=item.id
+                            ) }}"
+                            method="POST"
+                        >
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Evaluate Assignment →
+                            </button>
+
+                        </form>
+
+
+                    {% else %}
+
+
+                        <span class="history-muted">
+
+                            No submission yet.
+                            Evaluation report will appear here
+                            after submission and evaluation.
+
+                        </span>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </article>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="assignment-history-empty">
+
+            No assignments have been given to this student yet.
+
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+    <!-- =================================================
+         STATUS
+    ================================================== -->
+
+    <section class="card">
+
+        <h2 class="card-title">
+            Submission Status
+        </h2>
+
+
+        {% if submission %}
+
+            {% if evaluation %}
+
+                <span class="status status-green">
+                    🟢 Evaluation Completed
+                </span>
+
+            {% else %}
+
+                <span class="status status-orange">
+                    🟠 Submitted / Pending Evaluation
+                </span>
+
+            {% endif %}
+
+        {% else %}
+
+            <span class="status status-red">
+                🔴 Not Submitted
+            </span>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- =================================================
+         SUBMISSION
+    ================================================== -->
+
+    {% if submission %}
+
+    <section class="card">
+
+        <h2 class="card-title">
+            Submitted Assignment
+        </h2>
+
+
+        <div class="file-box">
+
+            <strong>
+                File:
+            </strong>
+
+            {{ submission.filename }}
+
+        </div>
+
+
+        {% if not evaluation %}
+
+
+        <form
+            action="{{ url_for(
+                'evaluate_student',
+                registration=student.registration,
+                assignment_id=selected_assignment_id
+            ) }}"
+            method="POST"
+        >
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Evaluate Assignment →
+            </button>
+
+        </form>
+
+
+        {% else %}
+
+
+        <span class="status status-green">
+            ✓ Evaluation Completed
+        </span>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+    {% endif %}
+
+
+    <!-- =================================================
+         EVALUATION
+    ================================================== -->
+
+    {% if evaluation %}
+
+
+    <!-- SCORE -->
+
+    <section class="card score-card">
+
+
+        <div>
+
+
+            <div class="score-label">
+                Final Score
+            </div>
+
+
+            <div class="score">
+
+                {{ score }}
+
+                <span class="score-total">
+
+                    /
+
+                    {{ assignment_total_marks|default(10) }}
+
+                </span>
+
+            </div>
+
+
+            <div class="percentage">
+
+                {{ percentage }}%
+
+                Overall Performance
+
+            </div>
+
+
+        </div>
+
+
+        <div class="score-circle">
+
+            <strong>
+                {{ percentage }}%
+            </strong>
+
+
+            <span>
+                Performance
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         TEACHER FINAL SCORE
+    ================================================== -->
+
+    <section class="card">
+
+        <h2 class="card-title">
+            Teacher Final Score
+        </h2>
+
+
+        <p class="manual-text">
+
+            You can manually adjust the final score
+            after reviewing the student's assignment.
+
+        </p>
+
+
+        <form
+            action="{{ url_for('update_score') }}"
+            method="POST"
+            class="score-form"
+        >
+
+
+            <input
+                type="hidden"
+                name="registration"
+                value="{{ student.registration }}"
+            >
+
+
+            <input
+                type="hidden"
+                name="assignment_id"
+                value="{{ selected_assignment_id }}"
+            >
+
+
+            <input
+                type="number"
+                name="score"
+                class="score-input"
+
+                value="{{ score }}"
+
+                min="0"
+
+                max="{{ assignment_total_marks|default(10) }}"
+
+                step="0.5"
+
+                required
+            >
+
+
+            <span>
+
+                /
+
+                {{ assignment_total_marks|default(10) }}
+
+            </span>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Save Final Score
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+    <!-- =================================================
+         QUESTION-WISE EVALUATION
+    ================================================== -->
+
+    <section class="card evaluation-card">
+
+
+        <h2 class="evaluation-title">
+
+            Question-wise Evaluation
+
+        </h2>
+
+
+        <!--
+
+            IMPORTANT:
+
+            There is NO Jinja question parser here.
+
+            We do NOT use:
+
+            ns.current_question > 0
+
+            Therefore the old error:
+
+            TypeError:
+            '>' not supported between
+            instances of 'str' and 'int'
+
+            cannot occur from this page.
+
+        -->
+
+
+        <div id="questionsContainer"></div>
+
+
+        <!-- =================================================
+             SUMMARY
+        ================================================== -->
+
+        <div
+            id="summaryContainer"
+            class="summary-card"
+            style="display:none;"
+        >
+
+            <h3>
+                Evaluation Summary
+            </h3>
+
+
+            <div
+                id="summaryText"
+                class="summary-text"
+            ></div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             FALLBACK RAW REPORT
+        ================================================== -->
+
+        <div
+            id="rawReport"
+            class="raw-report"
+            style="display:none;"
+        >{{ evaluation.result }}</div>
+
+
+        <!-- =================================================
+             ACTION BUTTONS
+        ================================================== -->
+
+        <div class="actions">
+
+
+            <a
+                href="{{ url_for(
+                    'download_report',
+                    registration=student.registration,
+                    assignment_id=selected_assignment_id
+                ) }}"
+                class="btn btn-primary"
+            >
+                Download Evaluation Report
+            </a>
+
+
+            <a
+                href="{{ url_for(
+                    'section',
+                    section_name=student.section
+                ) }}"
+                class="btn btn-outline"
+            >
+                Back to Section
+            </a>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="btn btn-outline"
+            >
+                Teacher Dashboard
+            </a>
+
+
+        </div>
+
+
+    </section>
+
+
+    {% else %}
+
+
+    <!-- =================================================
+         NO EVALUATION
+    ================================================== -->
+
+    <section class="card empty">
+
+
+        <h2>
+            Evaluation Not Available
+        </h2>
+
+
+        <p>
+
+            The student has not been evaluated yet.
+
+            Once the assignment is evaluated,
+
+            the complete evaluation report will appear here.
+
+        </p>
+
+
+        <a
+            href="{{ url_for(
+                'section',
+                section_name=student.section
+            ) }}"
+            class="btn btn-outline"
+        >
+            ← Back to Section
+        </a>
+
+
+    </section>
+
+
+    {% endif %}
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    EvalAI · AI Assignment Evaluation System
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+(function () {
+
+
+    const rawElement =
+        document.getElementById(
+            "rawReport"
+        );
+
+
+    const questionsContainer =
+        document.getElementById(
+            "questionsContainer"
+        );
+
+
+    const summaryContainer =
+        document.getElementById(
+            "summaryContainer"
+        );
+
+
+    const summaryText =
+        document.getElementById(
+            "summaryText"
+        );
+
+
+    if (
+        !rawElement ||
+        !questionsContainer
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Get evaluation report.
+     */
+
+    const raw =
+        rawElement.textContent || "";
+
+
+    /*
+     * Question format:
+     *
+     * Question 1
+     * Marks: 4 / 5
+     * Feedback:
+     * ...
+     */
+
+
+    const questionRegex =
+        /(?:QUESTION|Question)\s*(\d+)\s*[\r\n]+([\s\S]*?)(?=(?:QUESTION|Question)\s*\d+|STRENGTHS|WEAK TOPICS|SUGGESTIONS|OVERALL FEEDBACK|TOTAL MARKS|PERCENTAGE|$)/gi;
+
+
+    const questions = [];
+
+
+    let match;
+
+
+    while (
+        (match =
+            questionRegex.exec(raw)) !== null
+    ) {
+
+
+        const questionNumber =
+            parseInt(
+                match[1],
+                10
+            );
+
+
+        const block =
+            match[2] || "";
+
+
+        const marksMatch =
+            block.match(
+                /Marks\s*:\s*([0-9]+(?:\.[0-9]+)?)\s*\/\s*([0-9]+(?:\.[0-9]+)?)/i
+            );
+
+
+        const feedbackMatch =
+            block.match(
+                /Feedback\s*:\s*([\s\S]*)/i
+            );
+
+
+        let feedback =
+            feedbackMatch
+                ? feedbackMatch[1].trim()
+                : block.trim();
+
+
+        feedback =
+            feedback
+                .replace(
+                    /^[=\-\s]+/,
+                    ""
+                )
+                .trim();
+
+
+        questions.push({
+
+
+            number:
+
+                Number.isNaN(
+                    questionNumber
+                )
+
+                    ? questions.length + 1
+
+                    : questionNumber,
+
+
+            score:
+
+                marksMatch
+                    ? marksMatch[1]
+                    : "",
+
+
+            total:
+
+                marksMatch
+                    ? marksMatch[2]
+                    : "",
+
+
+            feedback:
+
+                feedback
+
+        });
+
+
+    }
+
+
+    /*
+     * Create question cards.
+     */
+
+    if (
+        questions.length > 0
+    ) {
+
+
+        questions.forEach(
+            function (question) {
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "question-card";
+
+
+                const header =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                header.className =
+                    "question-header";
+
+
+                const heading =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                heading.className =
+                    "question-heading";
+
+
+                const number =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                number.className =
+                    "question-number";
+
+
+                number.textContent =
+                    String(
+                        question.number
+                    );
+
+
+                const title =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                title.textContent =
+                    "Question " +
+                    String(
+                        question.number
+                    );
+
+
+                heading.appendChild(
+                    number
+                );
+
+
+                heading.appendChild(
+                    title
+                );
+
+
+                const marks =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                marks.className =
+                    "question-marks";
+
+
+                if (
+                    question.score !== "" &&
+                    question.total !== ""
+                ) {
+
+
+                    marks.textContent =
+                        question.score +
+                        " / " +
+                        question.total;
+
+
+                } else {
+
+
+                    marks.textContent =
+                        "Marks unavailable";
+
+
+                }
+
+
+                header.appendChild(
+                    heading
+                );
+
+
+                header.appendChild(
+                    marks
+                );
+
+
+                const feedbackLabel =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                feedbackLabel.className =
+                    "feedback-label";
+
+
+                feedbackLabel.textContent =
+                    "Feedback";
+
+
+                const feedback =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                feedback.className =
+                    "feedback";
+
+
+                feedback.textContent =
+                    question.feedback ||
+                    "No feedback available.";
+
+
+                card.appendChild(
+                    header
+                );
+
+
+                card.appendChild(
+                    feedbackLabel
+                );
+
+
+                card.appendChild(
+                    feedback
+                );
+
+
+                questionsContainer.appendChild(
+                    card
+                );
+
+
+            }
+        );
+
+
+    } else {
+
+
+        /*
+         * If the evaluator returned a format
+         * that JavaScript cannot split,
+         * show the complete report safely.
+         */
+
+        rawElement.style.display =
+            "block";
+
+
+        rawElement.innerHTML =
+            "";
+
+
+        const reportText =
+            document.createTextNode(
+                raw
+            );
+
+
+        rawElement.appendChild(
+            reportText
+        );
+
+
+    }
+
+
+    /*
+     * Summary sections.
+     */
+
+    const summaryNames = [
+
+
+        "STRENGTHS",
+
+
+        "WEAK TOPICS",
+
+
+        "SUGGESTIONS",
+
+
+        "OVERALL FEEDBACK"
+
+
+    ];
+
+
+    const summaries = [];
+
+
+    summaryNames.forEach(
+        function (name) {
+
+
+            const start =
+                raw.toUpperCase()
+                    .indexOf(
+                        name
+                    );
+
+
+            if (
+                start === -1
+            ) {
+
+
+                return;
+
+
+            }
+
+
+            let end =
+                raw.length;
+
+
+            summaryNames.forEach(
+                function (otherName) {
+
+
+                    if (
+                        otherName === name
+                    ) {
+
+
+                        return;
+
+
+                    }
+
+
+                    const otherPosition =
+                        raw.toUpperCase()
+                            .indexOf(
+                                otherName,
+                                start + name.length
+                            );
+
+
+                    if (
+                        otherPosition !== -1 &&
+                        otherPosition < end
+                    ) {
+
+
+                        end =
+                            otherPosition;
+
+
+                    }
+
+
+                }
+            );
+
+
+            const text =
+                raw
+                    .substring(
+                        start + name.length,
+                        end
+                    )
+                    .replace(
+                        /^[\s:=\-]+/,
+                        ""
+                    )
+                    .trim();
+
+
+            if (
+                text
+            ) {
+
+
+                summaries.push(
+                    name +
+                    "\n" +
+                    text
+                );
+
+
+            }
+
+
+        }
+    );
+
+
+    if (
+        summaries.length > 0
+    ) {
+
+
+        summaryText.textContent =
+            summaries.join(
+                "\n\n"
+            );
+
+
+        summaryContainer.style.display =
+            "block";
+
+
+    }
+
+
+})();
+
+</script>
+
+
+</body>
+</html>

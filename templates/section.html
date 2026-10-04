@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ section }} Section | EvalAI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #F7F1E5;
+            color: #4A2C20;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 430px;
+            height: 430px;
+            border-radius: 50%;
+            background: rgba(122, 81, 59, 0.07);
+            top: -210px;
+            right: -120px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(122, 81, 59, 0.05);
+            bottom: -150px;
+            left: -100px;
+            z-index: -1;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 76px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(74, 44, 32, 0.09);
+            background: rgba(247, 241, 229, 0.9);
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+        }
+
+        .logo span {
+            color: #7A513B;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .portal {
+            font-size: 13px;
+            font-weight: 600;
+            color: #80675B;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #4A2C20;
+            border: 1px solid rgba(74, 44, 32, 0.16);
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .logout:hover {
+            background: #4A2C20;
+            color: #F7F1E5;
+            transform: translateY(-2px);
+        }
+
+        /* MAIN */
+
+        main {
+            width: 86%;
+            max-width: 1240px;
+            margin: auto;
+            padding: 38px 0 70px;
+        }
+
+        .back {
+            display: inline-flex;
+            text-decoration: none;
+            color: #7A513B;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            transition: 0.2s ease;
+        }
+
+        .back:hover {
+            transform: translateX(-4px);
+            color: #4A2C20;
+        }
+
+        /* HERO */
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            color: #9A725A;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 9px;
+        }
+
+        h1 {
+            font-size: clamp(34px, 5vw, 48px);
+            letter-spacing: -1.8px;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            color: #80675B;
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        .evaluate-btn {
+            text-decoration: none;
+            background: #4A2C20;
+            color: #F7F1E5;
+            padding: 13px 19px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 750;
+            white-space: nowrap;
+            transition: 0.25s ease;
+            box-shadow: 0 10px 25px rgba(74, 44, 32, 0.12);
+        }
+
+        .evaluate-btn:hover {
+            background: #7A513B;
+            transform: translateY(-3px);
+        }
+
+        /* STAT CARDS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #FFFDF8;
+            border: 1px solid rgba(74, 44, 32, 0.09);
+            border-radius: 17px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(74, 44, 32, 0.045);
+            transition: 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 13px 30px rgba(74, 44, 32, 0.08);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #90776A;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 27px;
+            font-weight: 800;
+            color: #4A2C20;
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: #A0877A;
+            margin-top: 5px;
+        }
+
+        /* STUDENT CARD */
+
+        .student-card {
+            background: #FFFDF8;
+            border: 1px solid rgba(74, 44, 32, 0.09);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(74, 44, 32, 0.055);
+        }
+
+        .card-top {
+            padding: 22px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(74, 44, 32, 0.08);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .card-count {
+            font-size: 12px;
+            color: #90776A;
+        }
+
+        /* STATUS LEGEND */
+
+        .legend {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            padding: 14px 25px;
+            background: #FBF7EF;
+            border-bottom: 1px solid rgba(74, 44, 32, 0.07);
+            flex-wrap: wrap;
+        }
+
+        .legend-title {
+            font-size: 11px;
+            color: #8D7569;
+            font-weight: 750;
+            margin-right: 3px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            color: #6F574B;
+            font-weight: 650;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .green {
+            background: #3F8F63;
+        }
+
+        .orange {
+            background: #D68A32;
+        }
+
+        .red {
+            background: #C95858;
+        }
+
+        .blue {
+            background: #4E78B8;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        th {
+            text-align: left;
+            padding: 14px 25px;
+            background: #FBF7EF;
+            color: #927A6D;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 800;
+        }
+
+        td {
+            padding: 18px 25px;
+            border-top: 1px solid rgba(74, 44, 32, 0.07);
+            font-size: 13px;
+            color: #62493D;
+        }
+
+        tbody tr {
+            transition: 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #FCF8F1;
+        }
+
+        .student-name {
+            color: #4A2C20;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .registration {
+            color: #9A8174;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* SCORE */
+
+        .score-number {
+            font-weight: 800;
+            color: #4A2C20;
+        }
+
+        .score-bar {
+            width: 85px;
+            height: 5px;
+            background: #E9DED2;
+            border-radius: 10px;
+            margin-top: 7px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            width: 0;
+            background: #7A513B;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* STATUS BADGES */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .status-evaluated {
+            background: #E7F3EA;
+            color: #2F7650;
+        }
+
+        .status-evaluated .status-dot {
+            background: #3F8F63;
+        }
+
+        .status-pending {
+            background: #FFF1DD;
+            color: #A76519;
+        }
+
+        .status-pending .status-dot {
+            background: #D68A32;
+        }
+
+        .status-not-submitted {
+            background: #F8E5E5;
+            color: #A84444;
+        }
+
+        .status-not-submitted .status-dot {
+            background: #C95858;
+        }
+
+        .status-updated {
+            background: #E6EEF9;
+            color: #41689E;
+        }
+
+        .status-updated .status-dot {
+            background: #4E78B8;
+        }
+
+        /* VIEW BUTTON */
+
+        .view-btn {
+            display: inline-block;
+            text-decoration: none;
+            border: 1px solid rgba(122, 81, 59, 0.2);
+            color: #7A513B;
+            padding: 8px 12px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 750;
+            transition: 0.2s ease;
+        }
+
+        .view-btn:hover {
+            background: #4A2C20;
+            border-color: #4A2C20;
+            color: #F7F1E5;
+            transform: translateY(-2px);
+        }
+
+        .disabled-btn {
+            color: #A99589;
+            border-color: #DED3C8;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #927B6E;
+            font-size: 13px;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            margin-top: 27px;
+            color: #A0877A;
+            font-size: 10px;
+        }
+
+        /* ANIMATION */
+
+        .fade-up {
+            animation: fadeUp 0.55s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats .stat-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .stats .stat-card:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .stats .stat-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .stats .stat-card:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 0 5%;
+            }
+
+            .portal {
+                display: none;
+            }
+
+            main {
+                width: 90%;
+                padding-top: 30px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 23px;
+            }
+
+            .card-top,
+            .legend {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            th,
+            td {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Eval<span>AI</span>
+    </div>
+
+    <div class="header-right">
+
+        <div class="portal">
+            Teacher Portal
+        </div>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <a href="/dashboard" class="back">
+        ← Back to Dashboard
+    </a>
+
+
+    <!-- HERO -->
+
+    <section class="hero fade-up">
+
+        <div>
+
+            <div class="eyebrow">
+                Section Analytics
+            </div>
+
+            <h1>
+                Section {{ section }}
+            </h1>
+
+            <p class="description">
+                Track assignment submissions, evaluation progress,
+                and student performance for this section.
+            </p>
+
+        </div>
+
+        <a href="/evaluate-assignment" class="evaluate-btn">
+            + Evaluate Assignment
+        </a>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat-card fade-up">
+
+            <div class="stat-label">
+                Total Students
+            </div>
+
+            <div class="stat-value">
+                {{ total }}
+            </div>
+
+            <div class="stat-sub">
+                Students in section
+            </div>
+
+        </div>
+
+
+        <div class="stat-card fade-up">
+
+            <div class="stat-label">
+                Evaluated
+            </div>
+
+            <div class="stat-value">
+                {{ evaluated }}
+            </div>
+
+            <div class="stat-sub">
+                Completed evaluations
+            </div>
+
+        </div>
+
+
+        <div class="stat-card fade-up">
+
+            <div class="stat-label">
+                Average Score
+            </div>
+
+            <div class="stat-value">
+                {{ average }}%
+            </div>
+
+            <div class="stat-sub">
+                Section performance
+            </div>
+
+        </div>
+
+
+        <div class="stat-card fade-up">
+
+            <div class="stat-label">
+                Submission Rate
+            </div>
+
+            <div class="stat-value">
+                {{ submission_rate }}%
+            </div>
+
+            <div class="stat-sub">
+                Assignment submissions
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STUDENT TABLE -->
+
+    <section class="student-card fade-up">
+
+        <div class="card-top">
+
+            <div class="card-title">
+                Student Submissions
+            </div>
+
+            <div class="card-count">
+                {{ students|length }} students
+            </div>
+
+        </div>
+
+
+        <!-- STATUS LEGEND -->
+
+        <div class="legend">
+
+            <div class="legend-title">
+                Submission Status
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-dot green"></span>
+                Submitted / Evaluated
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-dot orange"></span>
+                Pending Evaluation
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-dot red"></span>
+                Not Submitted
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-dot blue"></span>
+                Score Updated
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Student</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% if students %}
+
+                        {% for student in students %}
+
+                        <tr>
+
+                            <!-- STUDENT -->
+
+                            <td>
+
+                                <div class="student-name">
+                                    {{ student.name }}
+                                </div>
+
+                                <div class="registration">
+                                    {{ student.registration }}
+                                </div>
+
+                            </td>
+
+
+                            <!-- SCORE -->
+
+                            <td>
+
+                                <div class="score-number">
+
+                                    {% if student.percentage is not none %}
+
+                                        {{ student.percentage }}%
+
+                                    {% else %}
+
+                                        —
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="score-bar">
+
+                                    <div
+                                        class="score-fill"
+                                        data-score="{{ student.percentage if student.percentage is not none else 0 }}">
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                {% if student.status == "Evaluation Updated" %}
+
+                                    <span class="status status-updated">
+                                        <span class="status-dot"></span>
+                                        Score Updated
+                                    </span>
+
+                                {% elif student.status == "Submitted / Evaluated" %}
+
+                                    <span class="status status-evaluated">
+                                        <span class="status-dot"></span>
+                                        Submitted / Evaluated
+                                    </span>
+
+                                {% elif student.status == "Submitted / Pending Evaluation" %}
+
+                                    <span class="status status-pending">
+                                        <span class="status-dot"></span>
+                                        Pending Evaluation
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status status-not-submitted">
+                                        <span class="status-dot"></span>
+                                        Not Submitted
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- ACTION -->
+
+                            <td>
+
+                                {% if student.status in ["Submitted / Evaluated", "Evaluation Updated"] %}
+
+                                    <a
+                                        href="{{ url_for(
+                                            'student_details',
+                                            student_name=student.name,
+                                            section_name=section,
+                                            assignment_id=student.assignment_id
+                                        ) }}"
+                                        class="view-btn">
+                                        View Evaluation →
+                                    </a>
+
+                                {% elif student.status == "Submitted / Pending Evaluation" %}
+
+                                    <a
+                                        href="{{ url_for(
+                                            'student_details',
+                                            student_name=student.name,
+                                            section_name=section,
+                                            assignment_id=student.assignment_id
+                                        ) }}"
+                                        class="view-btn">
+                                        Evaluate Assignment →
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="view-btn disabled-btn">
+                                        Not Submitted
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="4">
+
+                                <div class="empty">
+                                    No students found in this section.
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        EvalAI • AI Assignment Evaluation Platform
+    </div>
+
+</main>
+
+
+<script>
+
+    document.querySelectorAll(".score-fill").forEach(function (bar) {
+
+        const score = bar.getAttribute("data-score");
+
+        if (score) {
+            bar.style.width = score + "%";
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

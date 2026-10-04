@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>EvalAI - Evaluation Result</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                #f7f1e8;
+
+            color: #3d2a20;
+
+            min-height: 100vh;
+
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           TOP NAVIGATION
+        ===================================================== */
+
+        .navbar {
+            width: 100%;
+
+            background: #fffaf3;
+
+            border-bottom: 1px solid #e7d8c8;
+
+            padding: 18px 6%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            text-decoration: none;
+
+            color: #3d2a20;
+        }
+
+        .brand-icon {
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 11px;
+
+            background: #8b5d43;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+        .brand-text {
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            font-size: 10px;
+
+            color: #987965;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            margin-top: -3px;
+        }
+
+        .nav-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .nav-label {
+            color: #856957;
+
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
+
+        .container {
+            width: min(1100px, 92%);
+
+            margin: 42px auto 70px;
+        }
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #8b5d43;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.6px;
+
+            margin-bottom: 9px;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+
+            height: 7px;
+
+            background: #8b5d43;
+
+            border-radius: 50%;
+        }
+
+        .page-title {
+            font-family: Georgia, serif;
+
+            font-size: clamp(32px, 5vw, 48px);
+
+            line-height: 1.1;
+
+            color: #3d2a20;
+
+            margin-bottom: 9px;
+        }
+
+        .page-description {
+            color: #816b5c;
+
+            font-size: 15px;
+
+            max-width: 680px;
+        }
+
+        /* =====================================================
+           SCORE HERO
+        ===================================================== */
+
+        .score-hero {
+            background: #fffaf3;
+
+            border: 1px solid #e5d5c4;
+
+            border-radius: 24px;
+
+            padding: 30px;
+
+            display: grid;
+
+            grid-template-columns: 1fr auto;
+
+            align-items: center;
+
+            gap: 30px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 10px 30px rgba(88, 58, 39, 0.07);
+        }
+
+        .score-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 24px;
+        }
+
+        .score-circle {
+            width: 126px;
+
+            height: 126px;
+
+            flex: 0 0 126px;
+
+            border-radius: 50%;
+
+            background:
+                #f0e2d2;
+
+            border: 8px solid #d8c0aa;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .score-number {
+            font-family: Georgia, serif;
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            color: #6f4934;
+
+            line-height: 1;
+        }
+
+        .score-small {
+            margin-top: 5px;
+
+            color: #8c7362;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .score-info h2 {
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            color: #3d2a20;
+
+            margin-bottom: 5px;
+        }
+
+        .score-info p {
+            color: #816b5c;
+
+            font-size: 14px;
+        }
+
+        .percentage-box {
+            min-width: 150px;
+
+            text-align: center;
+
+            padding: 20px 24px;
+
+            border-radius: 18px;
+
+            background: #efe2d4;
+
+            border: 1px solid #dfcbb7;
+        }
+
+        .percentage-label {
+            color: #927864;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 2px;
+        }
+
+        .percentage-value {
+            font-family: Georgia, serif;
+
+            font-size: 38px;
+
+            font-weight: 700;
+
+            color: #704a35;
+
+            line-height: 1.1;
+        }
+
+        /* =====================================================
+           SECTION HEADER
+        ===================================================== */
+
+        .section-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            margin: 35px 0 17px;
+        }
+
+        .section-icon {
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 10px;
+
+            background: #8b5d43;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+        .section-heading h2 {
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            color: #3d2a20;
+        }
+
+        .section-heading p {
+            margin-left: auto;
+
+            color: #9b8474;
+
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           QUESTION CARDS
+        ===================================================== */
+
+        #questionContainer {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+        .question-card {
+            background: #fffaf3;
+
+            border: 1px solid #e5d5c4;
+
+            border-radius: 19px;
+
+            padding: 25px 27px;
+
+            box-shadow:
+                0 7px 22px rgba(88, 58, 39, 0.045);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px rgba(88, 58, 39, 0.08);
+        }
+
+        .question-top {
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #eaded1;
+        }
+
+        .question-number {
+            width: 39px;
+
+            height: 39px;
+
+            border-radius: 50%;
+
+            background: #8b5d43;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-family: Georgia, serif;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            flex: 0 0 39px;
+        }
+
+        .question-title {
+            font-family: Georgia, serif;
+
+            font-size: 21px;
+
+            color: #3d2a20;
+
+            flex: 1;
+        }
+
+        .marks-badge {
+            background: #efe2d4;
+
+            color: #704a35;
+
+            border: 1px solid #dfcbb7;
+
+            border-radius: 10px;
+
+            padding: 7px 13px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .feedback-area {
+            padding-top: 19px;
+        }
+
+        .feedback-label {
+            color: #8b5d43;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+        }
+
+        .feedback-text {
+            color: #665347;
+
+            font-size: 15px;
+
+            line-height: 1.75;
+
+            white-space: pre-line;
+        }
+
+        .empty-result {
+            background: #fffaf3;
+
+            border: 1px solid #e5d5c4;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            color: #806b5d;
+
+            text-align: center;
+        }
+
+        /* =====================================================
+           INSIGHTS
+        ===================================================== */
+
+        .insights-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 17px;
+        }
+
+        .insight-card {
+            background: #fffaf3;
+
+            border: 1px solid #e5d5c4;
+
+            border-radius: 18px;
+
+            padding: 22px;
+        }
+
+        .insight-card h3 {
+            font-family: Georgia, serif;
+
+            font-size: 19px;
+
+            color: #3d2a20;
+
+            margin-bottom: 13px;
+        }
+
+        .insight-card.strength h3 {
+            color: #597044;
+        }
+
+        .insight-card.weak h3 {
+            color: #9a684b;
+        }
+
+        .insight-card.suggestion h3 {
+            color: #765a8d;
+        }
+
+        .insight-list {
+            list-style: none;
+        }
+
+        .insight-list li {
+            position: relative;
+
+            padding-left: 18px;
+
+            margin-bottom: 9px;
+
+            color: #715f52;
+
+            font-size: 13px;
+
+            line-height: 1.55;
+        }
+
+        .insight-list li::before {
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #b38c70;
+
+            position: absolute;
+
+            left: 0;
+
+            top: 8px;
+        }
+
+        /* =====================================================
+           OVERALL FEEDBACK
+        ===================================================== */
+
+        .overall-card {
+            background: #eadccd;
+
+            border: 1px solid #dcc7b2;
+
+            border-radius: 20px;
+
+            padding: 25px 27px;
+
+            margin-top: 18px;
+        }
+
+        .overall-card h3 {
+            font-family: Georgia, serif;
+
+            color: #4e3528;
+
+            font-size: 20px;
+
+            margin-bottom: 9px;
+        }
+
+        .overall-card p {
+            color: #705c4e;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .actions {
+            margin-top: 35px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            padding: 20px 0;
+
+            border-top: 1px solid #e1d1c1;
+        }
+
+        .actions-left {
+            color: #927b6b;
+
+            font-size: 13px;
+        }
+
+        .actions-right {
+            display: flex;
+
+            gap: 11px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            text-decoration: none;
+
+            border-radius: 11px;
+
+            padding: 11px 18px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: #704a35;
+
+            background: #efe2d4;
+
+            border: 1px solid #dcc5b0;
+        }
+
+        .btn-primary {
+            color: white;
+
+            background: #8b5d43;
+
+            border: 1px solid #8b5d43;
+
+            box-shadow:
+                0 5px 14px rgba(111, 73, 52, 0.16);
+        }
+
+        /* =====================================================
+           RAW RESULT HIDDEN
+        ===================================================== */
+
+        #rawResult {
+            display: none;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            text-align: center;
+
+            color: #a18b7b;
+
+            font-size: 11px;
+
+            padding: 10px 0 25px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .score-hero {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+            }
+
+            .score-left {
+                justify-content: center;
+
+                flex-direction: column;
+            }
+
+            .percentage-box {
+                width: 100%;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading p {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 14px 5%;
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            .container {
+                width: 92%;
+
+                margin-top: 30px;
+            }
+
+            .score-hero {
+                padding: 22px;
+            }
+
+            .question-card {
+                padding: 20px;
+            }
+
+            .question-top {
+                align-items: flex-start;
+
+                flex-wrap: wrap;
+            }
+
+            .question-title {
+                font-size: 19px;
+
+                min-width: calc(100% - 55px);
+            }
+
+            .marks-badge {
+                margin-left: 52px;
+            }
+
+            .actions {
+                align-items: stretch;
+            }
+
+            .actions-right {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <a
+            href="{% if session.get('teacher_id') %}{{ url_for('teacher_assignments') }}{% elif session.get('registration') %}{{ url_for('student_dashboard') }}{% else %}{{ url_for('home') }}{% endif %}"
+            class="brand"
+        >
+
+            <div class="brand-icon">
+                E
+            </div>
+
+            <div>
+                <div class="brand-text">
+                    EvalAI
+                </div>
+
+                <div class="brand-subtitle">
+                    Assignment Evaluator
+                </div>
+            </div>
+
+        </a>
+
+        <div class="nav-right">
+
+            {% if session.get('teacher_id') %}
+
+                <span class="nav-label">
+                    Teacher Portal
+                </span>
+
+            {% elif session.get('registration') %}
+
+                <span class="nav-label">
+                    Student Portal
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="container">
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                Evaluation Complete
+            </div>
+
+            <h1 class="page-title">
+                Assignment Evaluation
+            </h1>
+
+            <p class="page-description">
+                Your submission has been evaluated using the
+                configured marking rubric. Review your
+                question-wise performance and feedback below.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             SCORE SUMMARY
+        ================================================== -->
+
+        <section class="score-hero">
+
+            <div class="score-left">
+
+                <div class="score-circle">
+
+                    <div
+                        class="score-number"
+                        id="scoreNumber"
+                    >
+                        {{ score|default(0)|int }}
+                    </div>
+
+                    <div class="score-small">
+                        out of 10
+                    </div>
+
+                </div>
+
+                <div class="score-info">
+
+                    <h2>
+                        Evaluation Summary
+                    </h2>
+
+                    <p>
+                        Overall performance based on
+                        your submitted answers.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="percentage-box">
+
+                <div class="percentage-label">
+                    Percentage
+                </div>
+
+                <div
+                    class="percentage-value"
+                    id="percentageValue"
+                >
+                    {{ percentage|default(0)|int }}%
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             QUESTION-WISE EVALUATION
+        ================================================== -->
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+                Q
+            </div>
+
+            <div>
+                <h2>
+                    Question-wise Evaluation
+                </h2>
+            </div>
+
+            <p>
+                Detailed marks & feedback
+            </p>
+
+        </div>
+
+
+        <section id="questionContainer">
+
+            <!-- JavaScript creates question cards here -->
+
+        </section>
+
+
+        <!-- =================================================
+             INSIGHTS
+        ================================================== -->
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+                +
+            </div>
+
+            <div>
+                <h2>
+                    Performance Insights
+                </h2>
+            </div>
+
+        </div>
+
+
+        <section class="insights-grid">
+
+            <div class="insight-card strength">
+
+                <h3>
+                    Strengths
+                </h3>
+
+                <ul
+                    class="insight-list"
+                    id="strengthList"
+                >
+                </ul>
+
+            </div>
+
+
+            <div class="insight-card weak">
+
+                <h3>
+                    Areas to Improve
+                </h3>
+
+                <ul
+                    class="insight-list"
+                    id="weakList"
+                >
+                </ul>
+
+            </div>
+
+
+            <div class="insight-card suggestion">
+
+                <h3>
+                    Suggestions
+                </h3>
+
+                <ul
+                    class="insight-list"
+                    id="suggestionList"
+                >
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             OVERALL FEEDBACK
+        ================================================== -->
+
+        <section
+            class="overall-card"
+            id="overallCard"
+        >
+
+            <h3>
+                Overall Feedback
+            </h3>
+
+            <p id="overallFeedback">
+                Your assignment has been evaluated.
+                Review the question-wise feedback above
+                to understand where you can improve.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTION BUTTONS
+        ================================================== -->
+
+        <div class="actions">
+
+            <div class="actions-left">
+                EvalAI Evaluation Report
+            </div>
+
+
+            <div class="actions-right">
+
+                {% if session.get('teacher_id') %}
+
+                    <a
+                        href="{{ url_for('teacher_assignments') }}"
+                        class="btn btn-secondary"
+                    >
+                        ← My Assignments
+                    </a>
+
+                {% elif session.get('registration') %}
+
+                    <a
+                        href="{{ url_for('student_dashboard') }}"
+                        class="btn btn-secondary"
+                    >
+                        ← Dashboard
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{{ url_for('home') }}"
+                        class="btn btn-secondary"
+                    >
+                        ← Home
+                    </a>
+
+                {% endif %}
+
+
+                <a
+                    href="{{ url_for('download_report') }}"
+                    class="btn btn-primary"
+                >
+                    ↓ Download Report
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        EvalAI • AI Assignment Evaluation Platform
+
+    </footer>
+
+
+    <!-- =====================================================
+         ORIGINAL EVALUATOR OUTPUT
+         Kept hidden and parsed by JavaScript.
+    ====================================================== -->
+
+    <div id="rawResult">{{ result|default('') }}</div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /*
+         * EvalAI Result Renderer
+         *
+         * The backend already produces the evaluation text.
+         * This script converts that text into a polished UI.
+         */
+
+        const rawResultElement =
+            document.getElementById("rawResult");
+
+        const rawText =
+            rawResultElement
+                ? rawResultElement.innerText.trim()
+                : "";
+
+
+        /*
+         * -----------------------------------------------------
+         * SCORE
+         * -----------------------------------------------------
+         */
+
+        const scoreValue =
+            Number(
+                "{{ score|default(0) }}"
+            );
+
+        const percentageValue =
+            Number(
+                "{{ percentage|default(0) }}"
+            );
+
+
+        const scoreNumber =
+            document.getElementById("scoreNumber");
+
+        const percentageDisplay =
+            document.getElementById("percentageValue");
+
+
+        if (scoreNumber) {
+
+            scoreNumber.textContent =
+                Number.isFinite(scoreValue)
+                    ? scoreValue
+                    : 0;
+
+        }
+
+
+        if (percentageDisplay) {
+
+            percentageDisplay.textContent =
+                (
+                    Number.isFinite(percentageValue)
+                        ? percentageValue
+                        : 0
+                ) + "%";
+
+        }
+
+
+        /*
+         * -----------------------------------------------------
+         * PARSE EVALUATOR TEXT
+         * -----------------------------------------------------
+         */
+
+        function cleanText(text) {
+
+            return text
+                .replace(/\r/g, "")
+                .replace(/\n{3,}/g, "\n\n")
+                .trim();
+
+        }
+
+
+        const cleaned =
+            cleanText(rawText);
+
+
+        const lines =
+            cleaned
+                .split("\n")
+                .map(line => line.trim());
+
+
+        /*
+         * -----------------------------------------------------
+         * QUESTION PARSER
+         * -----------------------------------------------------
+         */
+
+        const questions = [];
+
+        let currentQuestion = null;
+
+        let currentMode = "";
+
+
+        function isQuestionLine(line) {
+
+            return /^Question\s+\d+/i.test(line);
+
+        }
+
+
+        function isMarksLine(line) {
+
+            return /^Marks\s*:/i.test(line);
+
+        }
+
+
+        function isFeedbackLine(line) {
+
+            return /^Feedback\s*:/i.test(line);
+
+        }
+
+
+        function isSeparator(line) {
+
+            return /^={3,}/.test(line)
+                || /^-{3,}/.test(line);
+
+        }
+
+
+        function isSectionHeading(line) {
+
+            const normalized =
+                line
+                    .toUpperCase()
+                    .replace(/[:\-]/g, "")
+                    .trim();
+
+            return [
+                "STRENGTHS",
+                "WEAK TOPICS",
+                "SUGGESTIONS",
+                "OVERALL FEEDBACK"
+            ].includes(normalized);
+
+        }
+
+
+        for (let i = 0; i < lines.length; i++) {
+
+            const line = lines[i];
+
+
+            if (!line) {
+
+                continue;
+
+            }
+
+
+            /*
+             * New question
+             */
+
+            if (isQuestionLine(line)) {
+
+                if (currentQuestion) {
+
+                    questions.push(
+                        currentQuestion
+                    );
+
+                }
+
+
+                currentQuestion = {
+
+                    number:
+                        (
+                            line.match(/\d+/)
+                            || ["?"]
+                        )[0],
+
+                    title:
+                        line,
+
+                    marks:
+                        "",
+
+                    feedback:
+                        ""
+
+                };
+
+
+                currentMode = "";
+
+                continue;
+
+            }
+
+
+            /*
+             * Marks
+             */
+
+            if (
+                currentQuestion
+                && isMarksLine(line)
+            ) {
+
+                currentQuestion.marks =
+                    line
+                        .replace(
+                            /^Marks\s*:\s*/i,
+                            ""
+                        )
+                        .trim();
+
+                currentMode = "";
+
+                continue;
+
+            }
+
+
+            /*
+             * Feedback
+             */
+
+            if (
+                currentQuestion
+                && isFeedbackLine(line)
+            ) {
+
+                const feedbackStart =
+                    line
+                        .replace(
+                            /^Feedback\s*:\s*/i,
+                            ""
+                        )
+                        .trim();
+
+
+                currentQuestion.feedback =
+                    feedbackStart;
+
+                currentMode = "feedback";
+
+                continue;
+
+            }
+
+
+            /*
+             * Stop question parsing when
+             * a major section starts.
+             */
+
+            if (
+                currentQuestion
+                && (
+                    isSeparator(line)
+                    || isSectionHeading(line)
+                    || /^TOTAL MARKS/i.test(line)
+                    || /^PERCENTAGE/i.test(line)
+                )
+            ) {
+
+                if (currentQuestion) {
+
+                    questions.push(
+                        currentQuestion
+                    );
+
+                    currentQuestion = null;
+
+                }
+
+                currentMode = "";
+
+                continue;
+
+            }
+
+
+            /*
+             * Feedback continuation
+             */
+
+            if (
+                currentQuestion
+                && currentMode === "feedback"
+            ) {
+
+                if (
+                    currentQuestion.feedback
+                ) {
+
+                    currentQuestion.feedback +=
+                        " " + line;
+
+                } else {
+
+                    currentQuestion.feedback =
+                        line;
+
+                }
+
+            }
+
+        }
+
+
+        /*
+         * Push final question
+         */
+
+        if (currentQuestion) {
+
+            questions.push(
+                currentQuestion
+            );
+
+        }
+
+
+        /*
+         * -----------------------------------------------------
+         * QUESTION CARDS
+         * -----------------------------------------------------
+         */
+
+        const questionContainer =
+            document.getElementById(
+                "questionContainer"
+            );
+
+
+        function escapeHTML(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                text || "";
+
+            return div.innerHTML;
+
+        }
+
+
+        if (
+            questionContainer
+            && questions.length > 0
+        ) {
+
+            questions.forEach(question => {
+
+                const card =
+                    document.createElement("article");
+
+                card.className =
+                    "question-card";
+
+
+                card.innerHTML = `
+
+                    <div class="question-top">
+
+                        <div class="question-number">
+                            ${escapeHTML(question.number)}
+                        </div>
+
+                        <div class="question-title">
+                            ${escapeHTML(question.title)}
+                        </div>
+
+                        <div class="marks-badge">
+                            ${escapeHTML(
+                                question.marks || "Evaluated"
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div class="feedback-area">
+
+                        <div class="feedback-label">
+                            Feedback
+                        </div>
+
+                        <div class="feedback-text">
+                            ${escapeHTML(
+                                question.feedback
+                                || "No detailed feedback was provided."
+                            )}
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                questionContainer.appendChild(
+                    card
+                );
+
+            });
+
+        } else {
+
+            /*
+             * Fallback if the evaluator output
+             * doesn't contain question headings.
+             */
+
+            const fallback =
+                document.createElement("div");
+
+            fallback.className =
+                "empty-result";
+
+            fallback.textContent =
+                "The assignment was evaluated successfully. The recorded score is shown above.";
+
+            questionContainer.appendChild(
+                fallback
+            );
+
+        }
+
+
+        /*
+         * -----------------------------------------------------
+         * EXTRACT INSIGHT SECTIONS
+         * -----------------------------------------------------
+         */
+
+        function extractSection(
+            sectionName
+        ) {
+
+            const upper =
+                cleaned.toUpperCase();
+
+            const target =
+                sectionName.toUpperCase();
+
+
+            const start =
+                upper.indexOf(target);
+
+
+            if (start === -1) {
+
+                return [];
+
+            }
+
+
+            const remaining =
+                cleaned.substring(
+                    start + target.length
+                );
+
+
+            const nextSection =
+                remaining.search(
+                    /\n\s*(STRENGTHS|WEAK TOPICS|SUGGESTIONS|OVERALL FEEDBACK|TOTAL MARKS|PERCENTAGE)\s*:?\s*/i
+                );
+
+
+            let sectionText;
+
+
+            if (nextSection === -1) {
+
+                sectionText =
+                    remaining;
+
+            } else {
+
+                sectionText =
+                    remaining.substring(
+                        0,
+                        nextSection
+                    );
+
+            }
+
+
+            return sectionText
+                .split("\n")
+                .map(item =>
+                    item
+                        .replace(/^[-•*]\s*/, "")
+                        .trim()
+                )
+                .filter(item =>
+                    item.length > 0
+                    && !isSeparator(item)
+                );
+
+        }
+
+
+        function renderInsightList(
+            elementId,
+            items,
+            fallback
+        ) {
+
+            const element =
+                document.getElementById(
+                    elementId
+                );
+
+
+            if (!element) {
+
+                return;
+
+            }
+
+
+            const finalItems =
+                items.length > 0
+                    ? items
+                    : [fallback];
+
+
+            finalItems
+                .slice(0, 5)
+                .forEach(item => {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.textContent =
+                        item;
+
+                    element.appendChild(li);
+
+                });
+
+        }
+
+
+        renderInsightList(
+            "strengthList",
+            extractSection("STRENGTHS"),
+            "Review the areas where you received full marks."
+        );
+
+
+        renderInsightList(
+            "weakList",
+            extractSection("WEAK TOPICS"),
+            "Review the questions where marks were lost."
+        );
+
+
+        renderInsightList(
+            "suggestionList",
+            extractSection("SUGGESTIONS"),
+            "Add clearer explanations and relevant examples in future answers."
+        );
+
+
+        /*
+         * -----------------------------------------------------
+         * OVERALL FEEDBACK
+         * -----------------------------------------------------
+         */
+
+        const overallItems =
+            extractSection(
+                "OVERALL FEEDBACK"
+            );
+
+
+        const overallElement =
+            document.getElementById(
+                "overallFeedback"
+            );
+
+
+        if (
+            overallElement
+            && overallItems.length > 0
+        ) {
+
+            overallElement.textContent =
+                overallItems.join(" ");
+
+        }
+
+    </script>
+
+</body>
+</html>

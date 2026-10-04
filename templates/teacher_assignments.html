@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>My Assignments | EvalAI</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    background: #f6efe6;
+
+    color: #3f2b21;
+
+    min-height: 100vh;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+header {
+
+    height: 74px;
+
+    background: #fffaf4;
+
+    border-bottom: 1px solid #e5d7c8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
+}
+
+
+.brand {
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    color: #3f271c;
+}
+
+
+.brand span {
+
+    color: #9a684d;
+}
+
+
+.nav {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+
+.nav a {
+
+    color: #765744;
+
+    text-decoration: none;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    font-size: 14px;
+}
+
+
+.nav a:hover,
+.nav a.active {
+
+    background: #eee2d4;
+
+    color: #4b2d20;
+}
+
+
+.nav .logout {
+
+    background: #4b2d20;
+
+    color: #fff;
+}
+
+
+.nav .logout:hover {
+
+    background: #321d15;
+
+    color: #fff;
+}
+
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+
+.container {
+
+    width: min(1200px, 92%);
+
+    margin: auto;
+
+    padding: 45px 0 70px;
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    align-items: flex-end;
+
+    margin-bottom: 30px;
+}
+
+
+.eyebrow {
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 12px;
+
+    color: #9a684d;
+
+    font-weight: 800;
+
+    margin-bottom: 10px;
+}
+
+
+.hero h1 {
+
+    font-size: 44px;
+
+    margin-bottom: 8px;
+}
+
+
+.hero p {
+
+    color: #876a56;
+
+    line-height: 1.6;
+
+    max-width: 650px;
+}
+
+
+.teacher-box {
+
+    background: #fffaf4;
+
+    border: 1px solid #e4d6c7;
+
+    border-radius: 16px;
+
+    padding: 18px 22px;
+
+    min-width: 220px;
+}
+
+
+.teacher-box small {
+
+    display: block;
+
+    color: #997a64;
+
+    margin-bottom: 5px;
+}
+
+
+.teacher-box strong {
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   STATISTICS
+   ============================================================ */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 14px;
+
+    margin-bottom: 35px;
+}
+
+
+.stat {
+
+    background: #fffaf4;
+
+    border: 1px solid #e4d6c7;
+
+    border-radius: 16px;
+
+    padding: 20px;
+}
+
+
+.stat small {
+
+    display: block;
+
+    color: #997a64;
+
+    margin-bottom: 8px;
+}
+
+
+.stat strong {
+
+    font-size: 29px;
+}
+
+
+/* ============================================================
+   HEAD
+   ============================================================ */
+
+.head {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 18px;
+}
+
+
+.head h2 {
+
+    font-size: 27px;
+}
+
+
+.head p {
+
+    color: #8a6d5a;
+
+    margin-top: 5px;
+}
+
+
+.primary {
+
+    background: #4b2d20;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    padding: 12px 17px;
+
+    border-radius: 11px;
+
+    font-weight: 700;
+
+    display: inline-block;
+}
+
+
+.primary:hover {
+
+    background: #321d15;
+}
+
+
+/* ============================================================
+   GRID
+   ============================================================ */
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+.card {
+
+    background: #fffaf4;
+
+    border: 1px solid #e3d5c6;
+
+    border-radius: 20px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 10px 30px rgba(70, 45, 30, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px rgba(70, 45, 30, 0.09);
+}
+
+
+.top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.id {
+
+    font-size: 12px;
+
+    color: #9a684d;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.card h3 {
+
+    font-size: 23px;
+
+    margin-top: 6px;
+}
+
+
+.subject {
+
+    color: #876a56;
+
+    margin-top: 5px;
+}
+
+
+/* ============================================================
+   SECTION PILLS
+   ============================================================ */
+
+.section-pills {
+
+    display: flex;
+
+    gap: 6px;
+
+    flex-wrap: wrap;
+
+    margin: 17px 0;
+}
+
+
+.pill {
+
+    background: #eee2d4;
+
+    color: #604330;
+
+    padding: 7px 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   SUMMARY
+   ============================================================ */
+
+.summary {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 9px;
+
+    margin-bottom: 16px;
+}
+
+
+.summary div {
+
+    background: #f8f0e6;
+
+    border-radius: 12px;
+
+    padding: 12px;
+}
+
+
+.summary small {
+
+    display: block;
+
+    color: #997a64;
+
+    font-size: 11px;
+
+    margin-bottom: 4px;
+}
+
+
+.summary strong {
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   SECTION BLOCK
+   ============================================================ */
+
+.section-block {
+
+    border-top: 1px solid #eadfd5;
+
+    padding-top: 14px;
+
+    margin-top: 14px;
+}
+
+
+.section-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 7px;
+}
+
+
+.section-row strong {
+
+    font-size: 14px;
+}
+
+
+.section-row span {
+
+    font-size: 12px;
+
+    color: #8a6d5a;
+}
+
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+
+.mini-progress {
+
+    height: 7px;
+
+    background: #eadfd3;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    width: 100%;
+}
+
+
+.mini-progress-fill {
+
+    display: block;
+
+    height: 100%;
+
+    background: #8b5d43;
+
+    width: 0%;
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* ============================================================
+   COUNTS
+   ============================================================ */
+
+.counts {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    color: #7f614e;
+
+    font-size: 12px;
+
+    margin-top: 7px;
+}
+
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+
+.actions {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 20px;
+
+    gap: 12px;
+}
+
+
+.marks {
+
+    font-size: 12px;
+
+    color: #8a6d5a;
+}
+
+
+.btn {
+
+    background: #4b2d20;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    padding: 10px 14px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+
+    font-size: 13px;
+}
+
+
+.btn:hover {
+
+    background: #321d15;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.empty {
+
+    background: #fffaf4;
+
+    border: 1px dashed #d5c2b0;
+
+    border-radius: 18px;
+
+    padding: 55px;
+
+    text-align: center;
+
+    color: #8d705d;
+}
+
+
+.empty h3 {
+
+    font-size: 24px;
+
+    margin-bottom: 8px;
+}
+
+
+.empty p {
+
+    margin-bottom: 20px;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 850px) {
+
+    .stats {
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .hero {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .teacher-box {
+
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .container {
+
+        width: 94%;
+
+        padding-top: 30px;
+    }
+
+
+    .hero h1 {
+
+        font-size: 34px;
+    }
+
+
+    .stats {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .summary {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .nav a:not(.active):not(.logout) {
+
+        display: none;
+    }
+
+
+    .head {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+
+    .actions {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .btn {
+
+        width: 100%;
+
+        text-align: center;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+
+<header>
+
+    <div class="brand">
+        Eval<span>AI</span>
+    </div>
+
+
+    <nav class="nav">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+
+        <a
+            href="{{ url_for('teacher_assignments') }}"
+            class="active"
+        >
+            My Assignments
+        </a>
+
+
+        <a href="{{ url_for('create_assignment') }}">
+            Create Assignment
+        </a>
+
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+
+<main class="container">
+
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+
+<section class="hero">
+
+    <div>
+
+        <div class="eyebrow">
+            Teacher Portal
+        </div>
+
+
+        <h1>
+            My Assignments
+        </h1>
+
+
+        <p>
+            See every assignment you have given,
+            which sections received it,
+            and the submission progress.
+        </p>
+
+    </div>
+
+
+    <div class="teacher-box">
+
+        <small>
+            Teacher
+        </small>
+
+
+        <strong>
+            {{ session.get('teacher_name', 'Teacher') }}
+        </strong>
+
+
+        <small style="margin-top: 8px;">
+            ID:
+            {{ session.get('teacher_id', '') }}
+        </small>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     STATISTICS
+     ============================================================ -->
+
+<section class="stats">
+
+
+    <div class="stat">
+
+        <small>
+            Total Assignments Given
+        </small>
+
+
+        <strong>
+            {{ assignment_count }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+        <small>
+            Total Submissions
+        </small>
+
+
+        <strong>
+            {{ total_submitted }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+        <small>
+            Total Evaluated
+        </small>
+
+
+        <strong>
+            {{ total_evaluated }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+        <small>
+            Pending Evaluation
+        </small>
+
+
+        <strong>
+            {{ total_pending }}
+        </strong>
+
+    </div>
+
+
+</section>
+
+
+<!-- ============================================================
+     ASSIGNMENT HEADER
+     ============================================================ -->
+
+<div class="head">
+
+    <div>
+
+        <h2>
+            All Assignments
+        </h2>
+
+
+        <p>
+            Every published assignment is listed below.
+        </p>
+
+    </div>
+
+
+    <a
+        class="primary"
+        href="{{ url_for('create_assignment') }}"
+    >
+        + Give New Assignment
+    </a>
+
+</div>
+
+
+<!-- ============================================================
+     ASSIGNMENTS
+     ============================================================ -->
+
+{% if assignments %}
+
+
+<section class="grid">
+
+
+{% for assignment in assignments %}
+
+
+<article class="card">
+
+
+    <!-- ========================================================
+         ASSIGNMENT TOP
+         ======================================================== -->
+
+    <div class="top">
+
+        <div>
+
+            <div class="id">
+                {{ assignment.id }}
+            </div>
+
+
+            <h3>
+                {{ assignment.title }}
+            </h3>
+
+
+            <div class="subject">
+                {{ assignment.subject }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================
+         SECTION PILLS
+         ======================================================== -->
+
+    <div class="section-pills">
+
+        {% for section in assignment.sections %}
+
+            <span class="pill">
+                SECTION {{ section }}
+            </span>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- ========================================================
+         ASSIGNMENT SUMMARY
+         ======================================================== -->
+
+    <div class="summary">
+
+
+        <div>
+
+            <small>
+                Maximum Marks
+            </small>
+
+
+            <strong>
+                {{ assignment.total_marks }}
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <small>
+                Students
+            </small>
+
+
+            <strong>
+                {{ assignment.total_students }}
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <small>
+                Submitted
+            </small>
+
+
+            <strong>
+                {{ assignment.submitted }}
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ========================================================
+         SECTION DETAILS
+         ======================================================== -->
+
+    {% for section in assignment.section_cards %}
+
+
+    <div class="section-block">
+
+
+        <div class="section-row">
+
+            <strong>
+                Section {{ section.section }}
+            </strong>
+
+
+            <span>
+                {{ section.submitted }}/{{ section.total_students }}
+                submitted
+            </span>
+
+        </div>
+
+
+        <!-- Progress bar -->
+
+        <div class="mini-progress">
+
+            <span
+                class="mini-progress-fill"
+                data-progress="{% if section.total_students %}{{ ((section.submitted / section.total_students * 100)|round(0)) }}{% else %}0{% endif %}"
+            ></span>
+
+        </div>
+
+
+        <!-- Section counts -->
+
+        <div class="counts">
+
+            <span>
+                Students:
+                {{ section.total_students }}
+            </span>
+
+
+            <span>
+                Evaluated:
+                {{ section.evaluated }}
+            </span>
+
+
+            <span>
+                Pending:
+                {{ section.pending }}
+            </span>
+
+
+            <span>
+                Not submitted:
+                {{ section.not_submitted }}
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    {% endfor %}
+
+
+    <!-- ========================================================
+         ACTION
+         ======================================================== -->
+
+    <div class="actions">
+
+
+        <span class="marks">
+
+            {{ assignment.evaluated }}
+            evaluated
+
+            ·
+
+            {{ assignment.pending }}
+            pending
+
+        </span>
+
+
+        <a
+            class="btn"
+            href="{{ url_for('teacher_assignment_detail', assignment_id=assignment.id) }}"
+        >
+            View Assignment →
+        </a>
+
+    </div>
+
+
+</article>
+
+
+{% endfor %}
+
+
+</section>
+
+
+{% else %}
+
+
+<!-- ============================================================
+     EMPTY STATE
+     ============================================================ -->
+
+<div class="empty">
+
+    <h3>
+        No assignments yet
+    </h3>
+
+
+    <p>
+        You haven't given any assignments yet.
+    </p>
+
+
+    <a
+        class="primary"
+        href="{{ url_for('create_assignment') }}"
+    >
+        Create Your First Assignment
+    </a>
+
+</div>
+
+
+{% endif %}
+
+
+</main>
+
+
+<!-- ============================================================
+     PROGRESS BAR SCRIPT
+     ============================================================ -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const progressBars =
+        document.querySelectorAll(".mini-progress-fill");
+
+
+    progressBars.forEach(function (bar) {
+
+        const progress =
+            parseFloat(bar.getAttribute("data-progress")) || 0;
+
+
+        const safeProgress =
+            Math.max(
+                0,
+                Math.min(100, progress)
+            );
+
+
+        bar.style.width =
+            safeProgress + "%";
+
+    });
+
+});
+
+</script>
+
+
+</body>
+
+</html>

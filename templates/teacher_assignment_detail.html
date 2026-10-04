@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ assignment.id }} | EvalAI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #f6efe6;
+            color: #3f2b21;
+            min-height: 100vh;
+        }
+
+        header {
+            min-height: 74px;
+            background: #fffaf4;
+            border-bottom: 1px solid #e5d7c8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 7%;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 800;
+            color: #3f271c;
+        }
+
+        .brand span {
+            color: #9a684d;
+        }
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: #765744;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #eee2d4;
+            color: #4b2d20;
+        }
+
+        .nav .logout {
+            background: #4b2d20;
+            color: white;
+        }
+
+        .container {
+            width: min(1240px, 92%);
+            margin: auto;
+            padding: 42px 0 70px;
+        }
+
+        .back {
+            display: inline-block;
+            color: #765744;
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
+            align-items: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            color: #9a684d;
+            font-weight: 800;
+            margin-bottom: 9px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            color: #876a56;
+            line-height: 1.6;
+        }
+
+        .box {
+            background: #fffaf4;
+            border: 1px solid #e3d5c6;
+            border-radius: 16px;
+            padding: 17px 21px;
+            min-width: 230px;
+        }
+
+        .box small {
+            display: block;
+            color: #997a64;
+        }
+
+        .box strong {
+            display: block;
+            font-size: 17px;
+            margin-top: 5px;
+        }
+
+        .pills {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-top: 13px;
+        }
+
+        .pill {
+            background: #eee2d4;
+            color: #604330;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 11px;
+            margin-bottom: 28px;
+        }
+
+        .stat {
+            background: #fffaf4;
+            border: 1px solid #e4d6c7;
+            border-radius: 14px;
+            padding: 17px;
+        }
+
+        .stat small {
+            display: block;
+            color: #997a64;
+            margin-bottom: 7px;
+            font-size: 11px;
+        }
+
+        .stat strong {
+            font-size: 24px;
+        }
+
+        .section-card {
+            background: #fffaf4;
+            border: 1px solid #e3d5c6;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 30px rgba(70, 45, 30, 0.05);
+        }
+
+        .section-head {
+            padding: 21px 23px;
+            border-bottom: 1px solid #e9ddd0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .section-head h2 {
+            font-size: 25px;
+        }
+
+        .section-head p {
+            color: #8a6d5a;
+            margin-top: 5px;
+        }
+
+        .section-stats {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .small-stat {
+            background: #f8f0e6;
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 12px;
+            color: #765744;
+        }
+
+        .small-stat strong {
+            color: #3f2b21;
+        }
+
+        .paper {
+            background: #4b2d20;
+            color: white;
+            text-decoration: none;
+            padding: 10px 13px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th,
+        td {
+            padding: 15px 17px;
+            text-align: left;
+            border-bottom: 1px solid #eee3d8;
+            vertical-align: middle;
+        }
+
+        th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #8a6d5a;
+            background: #fbf6ef;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .name {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .reg {
+            font-size: 12px;
+            color: #987a64;
+            margin-top: 3px;
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .not {
+            background: #f4e2dd;
+            color: #9b4e3f;
+        }
+
+        .pending {
+            background: #f7ead4;
+            color: #9a6b22;
+        }
+
+        .done {
+            background: #e3f1e5;
+            color: #39734a;
+        }
+
+        .updated {
+            background: #e5e5f4;
+            color: #56548e;
+        }
+
+        .score {
+            font-weight: 800;
+        }
+
+        .muted {
+            color: #a18876;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            border: 0;
+            border-radius: 9px;
+            padding: 9px 12px;
+            font-family: inherit;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .view {
+            background: #eee2d4;
+            color: #573827;
+        }
+
+        .evaluate {
+            background: #4b2d20;
+            color: white;
+        }
+
+        .result {
+            background: #e5e5f4;
+            color: #56548e;
+        }
+
+        .note {
+            background: #f8f0e6;
+            border: 1px solid #e6d7c8;
+            border-radius: 14px;
+            padding: 16px;
+            color: #7d604d;
+            line-height: 1.6;
+        }
+
+        .empty {
+            padding: 35px;
+            text-align: center;
+            color: #8a6d5a;
+        }
+
+        @media (max-width: 1050px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .box {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">Eval<span>AI</span></div>
+
+    <nav class="nav">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('teacher_assignments') }}" class="active">
+            My Assignments
+        </a>
+        <a href="{{ url_for('create_assignment') }}">
+            Create Assignment
+        </a>
+        <a href="{{ url_for('logout') }}" class="logout">
+            Logout
+        </a>
+    </nav>
+</header>
+
+
+<main class="container">
+
+    <a class="back" href="{{ url_for('teacher_assignments') }}">
+        ← Back to My Assignments
+    </a>
+
+
+    <section class="hero">
+
+        <div>
+
+            <div class="eyebrow">
+                Assignment Overview · {{ assignment.id }}
+            </div>
+
+            <h1>
+                {{ assignment.title }}
+            </h1>
+
+            <p>
+                {{ assignment.subject }}
+                · Maximum {{ assignment.total_marks }} marks
+            </p>
+
+            <div class="pills">
+
+                {% set assignment_sections = assignment.get('sections', []) %}
+
+                {% if not assignment_sections %}
+                    {% set assignment_sections = [assignment.get('section', '')] %}
+                {% endif %}
+
+                {% for section in assignment_sections %}
+                    {% if section %}
+                        <span class="pill">
+                            Section {{ section }}
+                        </span>
+                    {% endif %}
+                {% endfor %}
+
+                <span class="pill">
+                    {{ assignment.question_paper }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="box">
+
+            <small>Teacher</small>
+
+            <strong>
+                {{ assignment.teacher_name }}
+            </strong>
+
+            <small style="margin-top:8px">
+                ID: {{ assignment.teacher_id }}
+            </small>
+
+        </div>
+
+    </section>
+
+
+    <section class="stats">
+
+        <div class="stat">
+            <small>Total Students</small>
+            <strong>{{ total_students }}</strong>
+        </div>
+
+        <div class="stat">
+            <small>Total Submitted</small>
+            <strong>{{ submitted }}</strong>
+        </div>
+
+        <div class="stat">
+            <small>Evaluated</small>
+            <strong>{{ evaluated }}</strong>
+        </div>
+
+        <div class="stat">
+            <small>Pending</small>
+            <strong>{{ pending }}</strong>
+        </div>
+
+        <div class="stat">
+            <small>Average</small>
+            <strong>{{ average }}</strong>
+        </div>
+
+        <div class="stat">
+            <small>Highest</small>
+            <strong>{{ highest }}</strong>
+        </div>
+
+    </section>
+
+
+    {% set assignment_sections = assignment.get('sections', []) %}
+
+    {% if not assignment_sections %}
+        {% set assignment_sections = [assignment.get('section', '')] %}
+    {% endif %}
+
+
+    {% for current_section in assignment_sections %}
+
+        {% if current_section %}
+
+            {% set section_ns = namespace(
+                total=0,
+                submitted=0,
+                evaluated=0,
+                pending=0,
+                not_submitted=0
+            ) %}
+
+            {% for student in students %}
+
+                {% if student.section|upper == current_section|upper %}
+
+                    {% set section_ns.total = section_ns.total + 1 %}
+
+                    {% if student.submission %}
+                        {% set section_ns.submitted = section_ns.submitted + 1 %}
+                    {% else %}
+                        {% set section_ns.not_submitted = section_ns.not_submitted + 1 %}
+                    {% endif %}
+
+                    {% if student.evaluation %}
+                        {% set section_ns.evaluated = section_ns.evaluated + 1 %}
+                    {% elif student.submission %}
+                        {% set section_ns.pending = section_ns.pending + 1 %}
+                    {% endif %}
+
+                {% endif %}
+
+            {% endfor %}
+
+
+            <section class="section-card">
+
+                <div class="section-head">
+
+                    <div>
+                        <h2>
+                            Section {{ current_section }}
+                        </h2>
+
+                        <p>
+                            Assignment-specific student records
+                        </p>
+                    </div>
+
+
+                    <div class="section-stats">
+
+                        <span class="small-stat">
+                            Students
+                            <strong>{{ section_ns.total }}</strong>
+                        </span>
+
+                        <span class="small-stat">
+                            Submitted
+                            <strong>{{ section_ns.submitted }}</strong>
+                        </span>
+
+                        <span class="small-stat">
+                            Evaluated
+                            <strong>{{ section_ns.evaluated }}</strong>
+                        </span>
+
+                        <span class="small-stat">
+                            Pending
+                            <strong>{{ section_ns.pending }}</strong>
+                        </span>
+
+                        <span class="small-stat">
+                            Not Submitted
+                            <strong>{{ section_ns.not_submitted }}</strong>
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        class="paper"
+                        target="_blank"
+                        href="{{ url_for(
+                            'teacher_question_paper',
+                            assignment_id=assignment.id
+                        ) }}"
+                    >
+                        Question Paper
+                    </a>
+
+                </div>
+
+
+                <div class="wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Status</th>
+                                <th>Submitted PDF</th>
+                                <th>Marks</th>
+                                <th>Percentage</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% set found_student = namespace(value=false) %}
+
+                        {% for student in students %}
+
+                            {% if student.section|upper == current_section|upper %}
+
+                                {% set found_student.value = true %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="name">
+                                            {{ student.name }}
+                                        </div>
+
+                                        <div class="reg">
+                                            {{ student.registration }}
+                                            · Section {{ student.section }}
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.status == "Not Submitted" %}
+
+                                            <span class="badge not">
+                                                Not Submitted
+                                            </span>
+
+                                        {% elif student.status == "Submitted / Pending Evaluation" %}
+
+                                            <span class="badge pending">
+                                                Pending Evaluation
+                                            </span>
+
+                                        {% elif student.evaluation and student.evaluation.get('manual_updated', false) %}
+
+                                            <span class="badge updated">
+                                                Evaluation Updated
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge done">
+                                                Evaluated
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.submission %}
+
+                                            <a
+                                                class="btn view"
+                                                target="_blank"
+                                                href="{{ url_for(
+                                                    'teacher_submission',
+                                                    registration=student.registration,
+                                                    assignment_id=assignment.id
+                                                ) }}"
+                                            >
+                                                View PDF
+                                            </a>
+
+                                            <div
+                                                class="muted"
+                                                style="margin-top:5px"
+                                            >
+                                                {{ student.submission.filename }}
+                                            </div>
+
+                                        {% else %}
+
+                                            <span class="muted">
+                                                —
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.score is not none %}
+
+                                            <span class="score">
+                                                {{ student.score }}
+                                                /
+                                                {{ assignment.total_marks }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="muted">
+                                                —
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if student.percentage is not none %}
+
+                                            <span class="score">
+                                                {{ student.percentage }}%
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="muted">
+                                                —
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            {% if student.submission and not student.evaluation %}
+
+                                                <form
+                                                    method="POST"
+                                                    action="{{ url_for(
+                                                        'evaluate_student',
+                                                        registration=student.registration,
+                                                        assignment_id=assignment.id
+                                                    ) }}"
+                                                >
+
+                                                    <button
+                                                        class="btn evaluate"
+                                                        type="submit"
+                                                    >
+                                                        Evaluate
+                                                    </button>
+
+                                                </form>
+
+                                            {% endif %}
+
+
+                                            {% if student.evaluation %}
+
+                                                <a
+                                                    class="btn result"
+                                                    href="{{ url_for(
+                                                        'student_details',
+                                                        student_name=student.name,
+                                                        section_name=student.section,
+                                                        assignment_id=assignment.id
+                                                    ) }}"
+                                                >
+                                                    View Result
+                                                </a>
+
+                                            {% endif %}
+
+
+                                            {% if student.submission %}
+
+                                                <a
+                                                    class="btn view"
+                                                    target="_blank"
+                                                    href="{{ url_for(
+                                                        'teacher_submission',
+                                                        registration=student.registration,
+                                                        assignment_id=assignment.id
+                                                    ) }}"
+                                                >
+                                                    PDF
+                                                </a>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                        {% if not found_student.value %}
+
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty">
+                                        No students found in this section.
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+    {% endfor %}
+
+
+    <div class="note">
+
+        <strong>Assignment-level separation:</strong>
+
+        Every student record on this page belongs specifically to
+        <strong>{{ assignment.id }}</strong>.
+
+        Evaluations, marks, submissions and status for another assignment
+        such as A002 or A003 remain separate.
+
+    </div>
+
+</main>
+
+</body>
+</html>
